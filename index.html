@@ -1,0 +1,1338 @@
+[hashal.html](https://github.com/user-attachments/files/35103273/hashal.html)
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>عشيره الهشال</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;800&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Tajawal', 'Segoe UI', Tahoma, Arial, sans-serif;
+    }
+
+    body {
+      background: #f6f1e7;
+      color: #2b1d12;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.55;
+    }
+
+    header {
+      background: #3b2618;
+      color: #ffffff;
+      padding: 12px 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 3px solid #c59216;
+    }
+
+    .brand-area {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    header h1 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #f3d179;
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      padding: 7px 14px;
+      border-radius: 8px;
+      border: 1px solid rgba(243, 209, 121, 0.35);
+      background: rgba(255, 255, 255, 0.08);
+      color: #f7efe2;
+      font-weight: 700;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+
+    .tab-btn.active {
+      background: #c59216;
+      color: #ffffff;
+      border-color: #c59216;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+
+    input, select, textarea {
+      padding: 8px 11px;
+      border-radius: 8px;
+      border: 1px solid #cbb9a3;
+      font-size: 0.92rem;
+      font-weight: 500;
+      background: #ffffff;
+      color: #2b1d12;
+      width: 100%;
+    }
+
+    input[type="file"] {
+      padding: 6px 8px;
+      font-size: 0.84rem;
+      background: #faf5ec;
+    }
+
+    textarea {
+      min-height: 85px;
+      resize: vertical;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #c59216;
+      box-shadow: 0 0 0 3px rgba(197, 146, 22, 0.18);
+    }
+
+    button {
+      padding: 8px 13px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+
+    .btn-gold { background: #c59216; color: #ffffff; }
+    .btn-gold:hover { background: #ad7e0f; }
+    .btn-red { background: #b83227; color: #ffffff; }
+    .btn-red:hover { background: #9b261d; }
+    .btn-light { background: #efe6d8; color: #2b1d12; border: 1px solid #d5c4ae; }
+    .btn-light:hover { background: #e4d7c4; }
+
+    body:not(.is-admin) .admin-only { display: none !important; }
+
+    .section-view {
+      display: none;
+      flex: 1;
+    }
+
+    .section-view.active {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ١- المشجره */
+    #view-tree {
+      overflow: auto;
+      padding: 32px 24px 100px;
+      background-image: radial-gradient(#d8c8b2 1px, transparent 1px);
+      background-size: 22px 22px;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .tree ul {
+      padding-top: 24px;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .tree li {
+      list-style: none;
+      text-align: center;
+      position: relative;
+      padding: 24px 12px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .tree li::before,
+    .tree li::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 50%;
+      border-top: 2px solid #8c6d4f;
+      width: 50%;
+      height: 24px;
+    }
+
+    .tree li::after {
+      right: auto;
+      left: 50%;
+      border-left: 2px solid #8c6d4f;
+    }
+
+    .tree li:only-child {
+      padding-top: 24px;
+    }
+
+    .tree li:only-child::before {
+      display: none;
+    }
+
+    .tree li:only-child::after {
+      display: block;
+      right: auto;
+      left: 50%;
+      width: 0;
+      border-top: 0;
+      border-left: 2px solid #8c6d4f;
+      height: 24px;
+    }
+
+    .tree li:first-child::before,
+    .tree li:last-child::after {
+      border-top: 0;
+    }
+
+    .tree li:last-child::before {
+      border-left: 2px solid #8c6d4f;
+      border-radius: 6px 0 0 0;
+    }
+
+    .tree li:first-child::after {
+      border-right: 2px solid #8c6d4f;
+      border-left: 0;
+      border-radius: 0 6px 0 0;
+    }
+
+    .tree ul ul::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      border-left: 2px solid #8c6d4f;
+      width: 0;
+      height: 24px;
+    }
+
+    .card {
+      background: #fffdf9;
+      border: 2px solid #d8c7b0;
+      border-radius: 12px;
+      padding: 10px 14px;
+      min-width: 165px;
+      max-width: 215px;
+      box-shadow: 0 3px 10px rgba(59, 38, 24, 0.08);
+      cursor: pointer;
+    }
+
+    .card.dead { background: #ece5da; border-color: #b9aa96; }
+    .card-name { font-weight: 800; font-size: 1rem; color: #3b2618; }
+    .card-sub { font-size: 0.78rem; color: #a8790d; font-weight: 700; margin-top: 3px; }
+
+    .card-quick-add {
+      margin-top: 8px;
+      padding: 5px 10px;
+      font-size: 0.76rem;
+      border-radius: 7px;
+      background: #efe0bf;
+      color: #3b2618;
+      border: 1px solid #d4b678;
+    }
+
+    .card-quick-add:hover { background: #c59216; color: #ffffff; }
+
+    /* ٢- اعلانات و ٣- شبات */
+    .board-container {
+      max-width: 960px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 24px 16px 80px;
+    }
+
+    .board-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #e2d3bd;
+    }
+
+    .board-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #3b2618;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
+      gap: 14px;
+    }
+
+    .info-card {
+      background: #fffdf9;
+      border: 1.5px solid #dccab2;
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 3px 10px rgba(59, 38, 24, 0.06);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .ad-img {
+      width: 100%;
+      max-height: 220px;
+      object-fit: cover;
+      border-radius: 9px;
+      border: 1px solid #e2d3bd;
+      cursor: pointer;
+    }
+
+    .img-preview-box {
+      margin-top: 8px;
+      display: none;
+      position: relative;
+    }
+
+    .img-preview-box.show {
+      display: block;
+    }
+
+    .img-preview-box img {
+      width: 100%;
+      max-height: 180px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid #cbb9a3;
+    }
+
+    .info-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .info-card h3 {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: #3b2618;
+    }
+
+    .badge {
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 99px;
+      background: #f3e4c3;
+      color: #8c6207;
+      white-space: nowrap;
+    }
+
+    .info-card p {
+      font-size: 0.92rem;
+      color: #463222;
+      white-space: pre-line;
+    }
+
+    .map-link-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 11px;
+      border-radius: 8px;
+      background: #efe0bf;
+      color: #3b2618;
+      border: 1px solid #d4b678;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: 0.15s;
+    }
+
+    .map-link-btn:hover {
+      background: #c59216;
+      color: #ffffff;
+    }
+
+    .info-meta {
+      font-size: 0.8rem;
+      color: #7c644e;
+      font-weight: 700;
+      margin-top: auto;
+      padding-top: 6px;
+      border-top: 1px dashed #e7d9c6;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* اختيار أكثر من يوم للشبة */
+    .days-picker {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .day-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 10px;
+      border-radius: 8px;
+      border: 1px solid #cbb9a3;
+      background: #faf5ec;
+      color: #2b1d12;
+      font-size: 0.84rem;
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .day-chip input[type="checkbox"] {
+      width: auto;
+      margin: 0;
+      accent-color: #c59216;
+      cursor: pointer;
+    }
+
+    .day-chip.selected {
+      background: #f3e4c3;
+      border-color: #c59216;
+      color: #3b2618;
+    }
+
+    /* النوافذ المنبثقة */
+    .modal-bg {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+      z-index: 99;
+    }
+
+    .modal-bg.open { display: flex !important; }
+
+    .modal {
+      background: #fffdf9;
+      border-radius: 14px;
+      width: 100%;
+      max-width: 480px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 20px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    .modal-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      border-bottom: 1px solid #e6d8c5;
+      padding-bottom: 10px;
+    }
+
+    .field { margin-bottom: 11px; }
+    .field label { display: block; font-size: 0.88rem; font-weight: 700; margin-bottom: 4px; }
+    .btns-row { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 12px; }
+    .err-msg { color: #b83227; font-size: 0.84rem; font-weight: 700; margin-top: 5px; }
+    .ok-msg { color: #1f7a3e; font-size: 0.84rem; font-weight: 700; margin-top: 5px; }
+    .empty-box {
+      text-align: center;
+      padding: 36px 18px;
+      background: #fffdf9;
+      border: 1.5px dashed #d6c3a9;
+      border-radius: 12px;
+      color: #6f5742;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand-area">
+      <h1>🌳 عشيره الهشال</h1>
+      <nav class="nav-tabs">
+        <button type="button" class="tab-btn active" data-tab="tree">١- المشجره</button>
+        <button type="button" class="tab-btn" data-tab="ads">٢- اعلانات</button>
+        <button type="button" class="tab-btn" data-tab="shabbat">٣- شبات</button>
+      </nav>
+    </div>
+    <div class="toolbar">
+      <button type="button" class="btn btn-light" id="btnAdmin">🔐 دخول المشرف</button>
+      <button type="button" class="btn btn-gold admin-only" id="btnAdminSettings">⚙️ إعدادات المشرف</button>
+      <button type="button" class="btn btn-light admin-only" id="btnExportData">⬇️ تصدير البيانات</button>
+      <button type="button" class="btn btn-light admin-only" id="btnImportData">⬆️ استيراد البيانات</button>
+      <input type="file" id="importFileInput" accept=".json,application/json" style="display:none;" />
+    </div>
+  </header>
+
+  <section id="view-tree" class="section-view active">
+    <div class="tree" id="treeBox"></div>
+  </section>
+
+  <section id="view-ads" class="section-view">
+    <div class="board-container">
+      <div class="board-header">
+        <div class="board-title">📢 اعلانات عشيره الهشال</div>
+        <button type="button" class="btn btn-gold admin-only" id="btnAddAd">+ إضافة إعلان</button>
+      </div>
+      <div class="cards-grid" id="adsList"></div>
+    </div>
+  </section>
+
+  <section id="view-shabbat" class="section-view">
+    <div class="board-container">
+      <div class="board-header">
+        <div class="board-title">🔥 شبات عشيره الهشال</div>
+        <button type="button" class="btn btn-gold admin-only" id="btnAddShabba">+ إضافة شبة</button>
+      </div>
+      <div class="cards-grid" id="shabbatList"></div>
+    </div>
+  </section>
+
+  <div class="modal-bg" id="modalBg">
+    <div class="modal">
+      <div class="modal-top">
+        <h2 id="modalTitle"></h2>
+        <button type="button" class="btn btn-light" id="btnCloseModal">×</button>
+      </div>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <script>
+    var KEY = 'ashirat_alhashal_pc_v8';
+    var PIN_KEY = 'ashirat_alhashal_pin_v8';
+    var DEFAULT_PINS = ['1234', '2026'];
+    var DAYS = ['السبت', 'الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة'];
+
+    var defaultDB = {
+      rootId: 'n_hashal',
+      people: {
+        n_hashal: { id: 'n_hashal', name: 'هشال', title: 'الجد المؤسس', status: 'dead', children: ['n_dakhlallah'] },
+        n_dakhlallah: { id: 'n_dakhlallah', name: 'دخل الله', title: '', status: 'dead', children: ['n_sahou'] },
+        n_sahou: { id: 'n_sahou', name: 'سهو', title: '', status: 'dead', children: [] }
+      },
+      ads: [
+        {
+          id: 'ad_1',
+          title: 'لقاء وتواصل أبناء العشيرة',
+          tag: 'إعلان عام',
+          body: 'ندعو جميع أبناء عشيرة الهشال للمشاركة في اللقاء السنوي وتحديث بيانات الأبناء في المشجرة.',
+          image: '',
+          date: 'اليوم'
+        }
+      ],
+      shabbat: [
+        {
+          id: 'sh_1',
+          title: 'شبة المساء والقهوة',
+          days: ['الخميس', 'الجمعة'],
+          mapUrl: 'https://maps.google.com/?q=29.9697,40.2064',
+          time: 'بعد صلاة العشاء',
+          notes: 'جلسة سمر وقصائد ومجلس مفتوح للجميع.'
+        }
+      ]
+    };
+
+    var db = loadDB();
+    var adminPins = loadPins();
+    var isAdmin = false;
+    var mode = 'child';
+    var targetParentId = null;
+    var pendingAction = null;
+    var lastClickTime = 0;
+
+    function loadPins() {
+      try {
+        var saved = localStorage.getItem(PIN_KEY);
+        if (saved) {
+          var parsed = JSON.parse(saved);
+          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        }
+      } catch (e) {}
+      return DEFAULT_PINS.slice();
+    }
+
+    function savePins(list) {
+      adminPins = list.slice();
+      try { localStorage.setItem(PIN_KEY, JSON.stringify(adminPins)); } catch (e) {}
+    }
+
+    function loadDB() {
+      try {
+        var raw = localStorage.getItem(KEY);
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (parsed && parsed.people) {
+            if (!Array.isArray(parsed.ads)) parsed.ads = [];
+            if (!Array.isArray(parsed.shabbat)) parsed.shabbat = [];
+            return parsed;
+          }
+        }
+      } catch (e) {}
+      return JSON.parse(JSON.stringify(defaultDB));
+    }
+
+    function saveDB() {
+      try { localStorage.setItem(KEY, JSON.stringify(db)); } catch (e) {}
+      renderAll();
+    }
+
+    function setAdmin(val) {
+      isAdmin = !!val;
+      document.body.classList.toggle('is-admin', isAdmin);
+      document.getElementById('btnAdmin').textContent = isAdmin ? 'خروج المشرف' : '🔐 دخول المشرف';
+      renderAll();
+    }
+
+    function switchTab(tabName) {
+      var tabs = document.querySelectorAll('.tab-btn');
+      for (var i = 0; i < tabs.length; i++) {
+        tabs[i].classList.toggle('active', tabs[i].getAttribute('data-tab') === tabName);
+      }
+      var views = document.querySelectorAll('.section-view');
+      for (var j = 0; j < views.length; j++) {
+        views[j].classList.remove('active');
+      }
+      var target = document.getElementById('view-' + tabName);
+      if (target) target.classList.add('active');
+    }
+
+    function openModal(title, html, focusId) {
+      document.getElementById('modalTitle').textContent = title;
+      document.getElementById('modalBody').innerHTML = html;
+      document.getElementById('modalBg').classList.add('open');
+      if (focusId) {
+        setTimeout(function () {
+          var el = document.getElementById(focusId);
+          if (el) { el.focus(); el.select(); }
+        }, 30);
+      }
+    }
+
+    function closeModal() {
+      document.getElementById('modalBg').classList.remove('open');
+    }
+
+    function askPin(cb) {
+      if (isAdmin) return cb();
+      pendingAction = cb;
+      openModal(
+        'دخول المشرف',
+        '<div class="field">' +
+          '<label>كلمة السر / رمز المشرف</label>' +
+          '<input type="password" id="pinInput" placeholder="اكتب كلمة السر هنا..." />' +
+          '<div class="err-msg" id="pinErr"></div>' +
+        '</div>' +
+        '<div class="btns-row">' +
+          '<button type="button" class="btn btn-gold" id="btnConfirmPin">دخول</button>' +
+          '<button type="button" class="btn btn-light" id="btnCancelPin">إلغاء</button>' +
+        '</div>',
+        'pinInput'
+      );
+
+      document.getElementById('btnConfirmPin').onclick = checkPin;
+      document.getElementById('btnCancelPin').onclick = closeModal;
+      document.getElementById('pinInput').onkeydown = function (e) {
+        if (e.key === 'Enter') checkPin();
+      };
+    }
+
+    function checkPin() {
+      var val = (document.getElementById('pinInput').value || '').trim();
+      if (adminPins.indexOf(val) !== -1) {
+        setAdmin(true);
+        var fn = pendingAction;
+        pendingAction = null;
+        closeModal();
+        if (typeof fn === 'function') setTimeout(fn, 25);
+      } else {
+        document.getElementById('pinErr').textContent = 'كلمة السر غير صحيحة';
+      }
+    }
+
+    function openAdminSettingsModal() {
+      askPin(function () {
+        var currentPinDisplay = adminPins[0] || '';
+        openModal(
+          'إعدادات المشرف',
+          '<div class="field">' +
+            '<label>كلمة السر الحالية للمشرف</label>' +
+            '<input type="text" id="currentPinView" value="' + escapeAttr(currentPinDisplay) + '" readonly />' +
+          '</div>' +
+          '<div class="field">' +
+            '<label>كلمة السر الجديدة *</label>' +
+            '<input type="password" id="newPinInput" placeholder="اكتب كلمة السر الجديدة..." />' +
+          '</div>' +
+          '<div class="field">' +
+            '<label>تأكيد كلمة السر الجديدة *</label>' +
+            '<input type="password" id="confirmPinInput" placeholder="أعد كتابة كلمة السر الجديدة..." />' +
+            '<div class="err-msg" id="pinSetErr"></div>' +
+            '<div class="ok-msg" id="pinSetOk"></div>' +
+          '</div>' +
+          '<div class="btns-row">' +
+            '<button type="button" class="btn btn-gold" id="btnSaveNewPin">حفظ كلمة السر</button>' +
+            '<button type="button" class="btn btn-light" id="btnRestoreDefaultPin">استعادة الافتراضي</button>' +
+            '<button type="button" class="btn btn-light" id="btnClosePinModal">إغلاق</button>' +
+          '</div>',
+          'newPinInput'
+        );
+
+        document.getElementById('btnSaveNewPin').onclick = function () {
+          var newPin = (document.getElementById('newPinInput').value || '').trim();
+          var confPin = (document.getElementById('confirmPinInput').value || '').trim();
+          var errEl = document.getElementById('pinSetErr');
+          var okEl = document.getElementById('pinSetOk');
+          errEl.textContent = '';
+          okEl.textContent = '';
+
+          if (!newPin) {
+            errEl.textContent = 'اكتب كلمة السر الجديدة أولاً';
+            return;
+          }
+          if (newPin !== confPin) {
+            errEl.textContent = 'كلمتا السر غير متطابقتين';
+            return;
+          }
+          savePins([newPin]);
+          document.getElementById('currentPinView').value = newPin;
+          document.getElementById('newPinInput').value = '';
+          document.getElementById('confirmPinInput').value = '';
+          okEl.textContent = 'تم تحديث كلمة السر بنجاح';
+        };
+
+        document.getElementById('btnRestoreDefaultPin').onclick = function () {
+          savePins(DEFAULT_PINS);
+          document.getElementById('currentPinView').value = DEFAULT_PINS[0];
+          document.getElementById('pinSetErr').textContent = '';
+          document.getElementById('pinSetOk').textContent = 'تمت استعادة كلمات السر الافتراضية';
+        };
+
+        document.getElementById('btnClosePinModal').onclick = closeModal;
+      });
+    }
+
+    function openAddForm(addMode, parentId) {
+      var m = addMode || 'child';
+      var pid = parentId || db.rootId || null;
+      askPin(function () {
+        mode = m;
+        targetParentId = pid;
+        var parentName = pid && db.people[pid] ? db.people[pid].name : 'المشجره';
+        openModal(
+          m === 'root' ? 'إضافة جد مؤسس' : ('إضافة ابن / ابنة لـ: ' + parentName),
+          '<div class="field">' +
+            '<label>الاسم *</label>' +
+            '<input type="text" id="personName" placeholder="اكتب الاسم هنا..." />' +
+            '<div class="err-msg" id="nameErr"></div>' +
+          '</div>' +
+          '<div class="field">' +
+            '<label>اللقب (اختياري)</label>' +
+            '<input type="text" id="personTitle" placeholder="مثال: شاعر / راعي إبل..." />' +
+          '</div>' +
+          '<div class="field">' +
+            '<label>الحالة</label>' +
+            '<select id="personStatus">' +
+              '<option value="dead">متوفى (رحمه الله)</option>' +
+              '<option value="alive">على قيد الحياة</option>' +
+            '</select>' +
+          '</div>' +
+          '<div class="btns-row">' +
+            '<button type="button" class="btn btn-gold" id="btnSavePerson">حفظ</button>' +
+            '<button type="button" class="btn btn-light" id="btnCancelForm">إلغاء</button>' +
+          '</div>',
+          'personName'
+        );
+
+        document.getElementById('btnSavePerson').onclick = savePerson;
+        document.getElementById('btnCancelForm').onclick = closeModal;
+        document.getElementById('personName').onkeydown = function (e) {
+          if (e.key === 'Enter') savePerson();
+        };
+      });
+    }
+
+    function savePerson() {
+      var nameEl = document.getElementById('personName');
+      var name = (nameEl.value || '').trim();
+      if (!name) {
+        document.getElementById('nameErr').textContent = 'اكتب الاسم أولاً';
+        nameEl.focus();
+        return;
+      }
+
+      var title = (document.getElementById('personTitle').value || '').trim();
+      var status = document.getElementById('personStatus').value || 'dead';
+      var id = 'p_' + Date.now() + '_' + Math.random().toString(36).slice(2, 5);
+
+      db.people[id] = { id: id, name: name, title: title, status: status, children: [] };
+
+      if (mode === 'root' || !db.rootId || !db.people[db.rootId]) {
+        db.rootId = id;
+      } else {
+        var p = db.people[targetParentId] || db.people[db.rootId];
+        p.children = p.children || [];
+        p.children.push(id);
+      }
+
+      saveDB();
+      closeModal();
+    }
+
+    function openPersonDetails(id) {
+      var p = db.people[id];
+      if (!p) return;
+      openModal(
+        p.name,
+        '<p style="margin-bottom:10px;">اللقب: <strong>' + (p.title || '—') + '</strong></p>' +
+        '<p style="margin-bottom:12px;">الحالة: <strong>' + (p.status === 'dead' ? 'متوفى (رحمه الله)' : 'على قيد الحياة') + '</strong></p>' +
+        '<div class="btns-row admin-only">' +
+          '<button type="button" class="btn btn-gold" id="btnModalAddChild">+ إضافة ابن / ابنة</button>' +
+          '<button type="button" class="btn btn-red" id="btnModalDelPerson">حذف</button>' +
+        '</div>'
+      );
+      document.body.classList.toggle('is-admin', isAdmin);
+      var addChildBtn = document.getElementById('btnModalAddChild');
+      var delBtn = document.getElementById('btnModalDelPerson');
+      if (addChildBtn) addChildBtn.onclick = function () { openAddForm('child', p.id); };
+      if (delBtn) delBtn.onclick = function () { deletePerson(p.id); };
+    }
+
+    function deletePerson(id) {
+      askPin(function () {
+        if (!db.people[id]) return;
+        var queue = [id];
+        var removeSet = {};
+        while (queue.length) {
+          var cur = queue.shift();
+          if (!db.people[cur] || removeSet[cur]) continue;
+          removeSet[cur] = true;
+          var kidsList = db.people[cur].children || [];
+          for (var i = 0; i < kidsList.length; i++) queue.push(kidsList[i]);
+        }
+        var keys = Object.keys(db.people);
+        for (var k = 0; k < keys.length; k++) {
+          var person = db.people[keys[k]];
+          person.children = (person.children || []).filter(function (c) { return !removeSet[c]; });
+        }
+        var remKeys = Object.keys(removeSet);
+        for (var r = 0; r < remKeys.length; r++) delete db.people[remKeys[r]];
+        if (removeSet[db.rootId]) db.rootId = Object.keys(db.people)[0] || null;
+        saveDB();
+        closeModal();
+      });
+    }
+
+    function drawNode(id) {
+      var p = db.people[id];
+      if (!p) return '';
+      var kidsArr = p.children || [];
+      var kidsHtml = '';
+      for (var i = 0; i < kidsArr.length; i++) {
+        kidsHtml += drawNode(kidsArr[i]);
+      }
+      var addBtn = isAdmin
+        ? '<div><button type="button" class="card-quick-add" data-add-child="' + p.id + '">+ ابن / ابنة</button></div>'
+        : '';
+      var deadCls = p.status === 'dead' ? ' dead' : '';
+      var deadTag = p.status === 'dead' ? ' (رحمه الله)' : '';
+      var subHtml = p.title ? ('<div class="card-sub">' + p.title + '</div>') : '';
+      var kidsUl = kidsHtml ? ('<ul>' + kidsHtml + '</ul>') : '';
+
+      return '<li>' +
+        '<div class="card' + deadCls + '" data-open-person="' + p.id + '">' +
+          '<div class="card-name">' + p.name + deadTag + '</div>' +
+          subHtml +
+          addBtn +
+        '</div>' +
+        kidsUl +
+      '</li>';
+    }
+
+    function renderTree() {
+      var box = document.getElementById('treeBox');
+      if (!db.rootId || !db.people[db.rootId]) {
+        box.innerHTML =
+          '<div style="text-align:center;padding:30px;">' +
+            '<p style="margin-bottom:12px;">المشجره فارغة</p>' +
+            '<button type="button" class="btn btn-gold admin-only" id="btnEmptyAddRoot">+ إضافة جد مؤسس</button>' +
+          '</div>';
+        document.body.classList.toggle('is-admin', isAdmin);
+        var emptyBtn = document.getElementById('btnEmptyAddRoot');
+        if (emptyBtn) emptyBtn.onclick = function () { openAddForm('root'); };
+        return;
+      }
+      box.innerHTML = '<ul>' + drawNode(db.rootId) + '</ul>';
+    }
+
+    function escapeAttr(str) {
+      return String(str || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function openImageViewer(src, title) {
+      openModal(
+        title || 'صورة الإعلان',
+        '<div style="text-align:center;">' +
+          '<img src="' + escapeAttr(src) + '" alt="' + escapeAttr(title || 'صورة') + '" style="max-width:100%;max-height:70vh;border-radius:10px;border:1px solid #d5c4ae;" />' +
+        '</div>'
+      );
+    }
+
+    function openAddAdModal() {
+      askPin(function () {
+        var uploadedImageData = '';
+        openModal(
+          'إضافة إعلان جديد',
+          '<div class="field">' +
+            '<label>عنوان الإعلان *</label>' +
+            '<input type="text" id="adTitle" placeholder="مثال: دعوة عرس / إعلان وفاه..." />' +
+            '<div class="err-msg" id="adErr"></div>' +
+          '</div>' +
+          '<div class="field">' +
+            '<label>التصنيف</label>' +
+            '<select id="adTagSelect">' +
+              '<option value="عرس">عرس</option>' +
+              '<option value="وفاه">وفاه</option>' +
+              '<option value="زواج">زواج</option>' +
+              '<option value="__custom__">أخرى (اكتب اللي تبي)</option>' +
+            '</select>' +
+            '<input type="text" id="adTagCustom" placeholder="اكتب التصنيف اللي تبي..." style="margin-top:7px;display:none;" />' +
+          '</div>' +
+          '<div class="field">' +
+            '<label>نص الإعلان *</label>' +
+            '<textarea id="adBody" placeholder="اكتب تفاصيل الإعلان هنا..."></textarea>' +
+          '</div>' +
+          '<div class="field">' +
+            '<label>صورة الإعلان (اختياري)</label>' +
+            '<input type="file" id="adImgFile" accept="image/*" />' +
+            '<div class="img-preview-box" id="adImgPreviewBox">' +
+              '<img id="adImgPreview" alt="معاينة الصورة" />' +
+              '<div class="btns-row" style="margin-top:6px;">' +
+                '<button type="button" class="btn btn-light" id="btnClearAdImg">إزالة الصورة</button>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+          '<div class="btns-row">' +
+            '<button type="button" class="btn btn-gold" id="btnSaveAd">نشر الإعلان</button>' +
+            '<button type="button" class="btn btn-light" id="btnCancelAd">إلغاء</button>' +
+          '</div>',
+          'adTitle'
+        );
+
+        var tagSelect = document.getElementById('adTagSelect');
+        var tagCustom = document.getElementById('adTagCustom');
+        if (tagSelect && tagCustom) {
+          tagSelect.onchange = function () {
+            if (tagSelect.value === '__custom__') {
+              tagCustom.style.display = 'block';
+              tagCustom.focus();
+            } else {
+              tagCustom.style.display = 'none';
+            }
+          };
+        }
+
+        var imgInput = document.getElementById('adImgFile');
+        var prevBox = document.getElementById('adImgPreviewBox');
+        var prevImg = document.getElementById('adImgPreview');
+        var clearImgBtn = document.getElementById('btnClearAdImg');
+
+        if (imgInput) {
+          imgInput.onchange = function () {
+            var file = imgInput.files && imgInput.files[0];
+            if (!file) return;
+            var reader = new FileReader();
+            reader.onload = function (ev) {
+              var tempImg = new Image();
+              tempImg.onload = function () {
+                var maxW = 1000;
+                var w = tempImg.width;
+                var h = tempImg.height;
+                if (w > maxW) {
+                  h = Math.round((h * maxW) / w);
+                  w = maxW;
+                }
+                var canvas = document.createElement('canvas');
+                canvas.width = w;
+                canvas.height = h;
+                var ctx = canvas.getContext('2d');
+                ctx.drawImage(tempImg, 0, 0, w, h);
+                uploadedImageData = canvas.toDataURL('image/jpeg', 0.82);
+                prevImg.src = uploadedImageData;
+                prevBox.classList.add('show');
+              };
+              tempImg.src = ev.target.result;
+            };
+            reader.readAsDataURL(file);
+          };
+        }
+
+        if (clearImgBtn) {
+          clearImgBtn.onclick = function () {
+            uploadedImageData = '';
+            if (imgInput) imgInput.value = '';
+            if (prevImg) prevImg.src = '';
+            if (prevBox) prevBox.classList.remove('show');
+          };
+        }
+
+        document.getElementById('btnSaveAd').onclick = function () {
+          var title = (document.getElementById('adTitle').value || '').trim();
+          var body = (document.getElementById('adBody').value || '').trim();
+          var chosenTag = tagSelect ? tagSelect.value : 'عرس';
+          var tag = chosenTag === '__custom__'
+            ? ((tagCustom && tagCustom.value) || '').trim()
+            : chosenTag;
+          if (!title || !body) {
+            document.getElementById('adErr').textContent = 'اكتب عنوان الإعلان ونصه أولاً';
+            return;
+          }
+          if (chosenTag === '__custom__' && !tag) {
+            document.getElementById('adErr').textContent = 'اكتب اسم التصنيف في خانة أخرى';
+            return;
+          }
+          db.ads.unshift({
+            id: 'ad_' + Date.now(),
+            title: title,
+            tag: tag || 'إعلان',
+            body: body,
+            image: uploadedImageData,
+            date: new Date().toLocaleDateString('ar-SA')
+          });
+          saveDB();
+          closeModal();
+        };
+        document.getElementById('btnCancelAd').onclick = closeModal;
+      });
+    }
+
+    function deleteAd(id) {
+      askPin(function () {
+        db.ads = db.ads.filter(function (item) { return item.id !== id; });
+        saveDB();
+      });
+    }
+
+    function renderAds() {
+      var list = document.getElementById('adsList');
+      if (!db.ads || db.ads.length === 0) {
+        list.innerHTML = '<div class="empty-box">لا توجد إعلانات حالياً.</div>';
+        return;
+      }
+      var html = '';
+      for (var i = 0; i < db.ads.length; i++) {
+        var ad = db.ads[i];
+        var imgHtml = ad.image
+          ? ('<img class="ad-img" data-view-img="' + escapeAttr(ad.image) + '" data-view-title="' + escapeAttr(ad.title) + '" src="' + escapeAttr(ad.image) + '" alt="' + escapeAttr(ad.title) + '" />')
+          : '';
+        html +=
+          '<div class="info-card">' +
+            imgHtml +
+            '<div class="info-card-top">' +
+              '<h3>' + ad.title + '</h3>' +
+              '<span class="badge">' + ad.tag + '</span>' +
+            '</div>' +
+            '<p>' + ad.body + '</p>' +
+            '<div class="info-meta">' +
+              '<span>' + (ad.date || '') + '</span>' +
+              '<button type="button" class="btn btn-red admin-only" data-del-ad="' + ad.id + '">حذف</button>' +
+            '</div>' +
+          '</div>';
+      }
+      list.innerHTML = html;
+      document.body.classList.toggle('is-admin', isAdmin);
+    }
+
+    function buildDaysCheckboxes() {
+      var html = '<div class="days-picker" id="shDaysPicker">';
+      for (var i = 0; i < DAYS.length; i++) {
+        var d = DAYS[i];
+        html +=
+          '<label class="day-chip">' +
+            '<input type="checkbox" class="sh-day-cb" value="' + d + '" />' +
+            '<span>' + d + '</span>' +
+          '</label>';
+      }
+      html += '</div>';
+      return html;
+    }
+
+    function getSelectedDays() {
+      var chosen = [];
+      var boxes = document.querySelectorAll('#shDaysPicker .sh-day-cb');
+      for (var i = 0; i < boxes.length; i++) {
+        if (boxes[i].checked) chosen.push(boxes[i].value);
+      }
+      return chosen;
+    }
+
+    function normalizeMapUrl(rawVal) {
+      var val = (rawVal || '').trim();
+      if (!val) return '';
+      if (/^https?:\/\//i.test(val)) return val;
+      if (/^maps\.google\.|goo\.gl\/maps|maps\.app\.goo\.gl/i.test(val)) {
+        return 'https://' + val;
+      }
+      return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(val);
+    }
+
+    function openAddShabbaModal() {
+      askPin(function () {
+        openModal(
+          'إضافة شبة جديدة',
+          '<div class="field">' +
+            '<label>اسم / عنوان الشبة *</label>' +
+            '<input type="text" id="shTitle" placeholder="مثال: شبة نهاية الأسبوع..." />' +
+            '<div class="err-msg" id="shErr"></div>' +
+          '</div>' +
+          '<div class="field">' +
+            '<label>أيام الأسبوع (يمكن اختيار أكثر من يوم)</label>' +
+            buildDaysCheckboxes() +
+          '</div>' +
+          '<div class="field">' +
+            '<label>الموقع (رابط أو إحداثيات أو اسم موقع من قوقل ماب)</label>' +
+            '<input type="text" id="shMap" placeholder="الصق رابط قوقل ماب أو الإحداثيات هنا..." />' +
+          '</div>' +
+          '<div class="field">' +
+            '<label>الوقت</label>' +
+            '<input type="text" id="shTime" placeholder="مثال: بعد العشاء..." />' +
+          '</div>' +
+          '<div class="field">' +
+            '<label>ملاحظات</label>' +
+            '<textarea id="shNotes" placeholder="تفاصيل إضافية عن الشبة..."></textarea>' +
+          '</div>' +
+          '<div class="btns-row">' +
+            '<button type="button" class="btn btn-gold" id="btnSaveSh">حفظ الشبة</button>' +
+            '<button type="button" class="btn btn-light" id="btnCancelSh">إلغاء</button>' +
+          '</div>',
+          'shTitle'
+        );
+
+        var picker = document.getElementById('shDaysPicker');
+        if (picker) {
+          picker.onchange = function (e) {
+            var cb = e.target.closest('.sh-day-cb');
+            if (cb && cb.parentElement) {
+              cb.parentElement.classList.toggle('selected', cb.checked);
+            }
+          };
+        }
+
+        document.getElementById('btnSaveSh').onclick = function () {
+          var title = (document.getElementById('shTitle').value || '').trim();
+          var daysList = getSelectedDays();
+          var mapUrl = normalizeMapUrl(document.getElementById('shMap').value);
+          var time = (document.getElementById('shTime').value || '').trim();
+          var notes = (document.getElementById('shNotes').value || '').trim();
+          if (!title) {
+            document.getElementById('shErr').textContent = 'اكتب عنوان الشبة أولاً';
+            return;
+          }
+          db.shabbat.unshift({
+            id: 'sh_' + Date.now(),
+            title: title,
+            days: daysList,
+            mapUrl: mapUrl,
+            time: time || 'غير محدد',
+            notes: notes
+          });
+          saveDB();
+          closeModal();
+        };
+        document.getElementById('btnCancelSh').onclick = closeModal;
+      });
+    }
+
+    function deleteShabba(id) {
+      askPin(function () {
+        db.shabbat = db.shabbat.filter(function (item) { return item.id !== id; });
+        saveDB();
+      });
+    }
+
+    function formatShabbaDays(sh) {
+      if (Array.isArray(sh.days) && sh.days.length > 0) return sh.days.join('، ');
+      if (sh.day) return sh.day;
+      return '';
+    }
+
+    function renderShabbat() {
+      var list = document.getElementById('shabbatList');
+      if (!db.shabbat || db.shabbat.length === 0) {
+        list.innerHTML = '<div class="empty-box">لا توجد شبات مسجلة حالياً.</div>';
+        return;
+      }
+      var html = '';
+      for (var i = 0; i < db.shabbat.length; i++) {
+        var sh = db.shabbat[i];
+        var daysText = formatShabbaDays(sh);
+        var dayLine = daysText ? ('<strong>الأيام:</strong> ' + daysText + '\n') : '';
+        var badgeText = (Array.isArray(sh.days) && sh.days.length > 1) ? (sh.days.length + ' أيام') : (daysText || 'شبة');
+        var mapLinkHtml = sh.mapUrl
+          ? ('<a class="map-link-btn" href="' + escapeAttr(sh.mapUrl) + '" target="_blank" rel="noopener noreferrer">📍 فتح الموقع في قوقل ماب</a>')
+          : '<span>الموقع: غير محدد</span>';
+        html +=
+          '<div class="info-card">' +
+            '<div class="info-card-top">' +
+              '<h3>' + sh.title + '</h3>' +
+              '<span class="badge">' + badgeText + '</span>' +
+            '</div>' +
+            '<p>' + dayLine + '<strong>الوقت:</strong> ' + sh.time + (sh.notes ? ('\n' + sh.notes) : '') + '</p>' +
+            '<div class="info-meta">' +
+              mapLinkHtml +
+              '<button type="button" class="btn btn-red admin-only" data-del-sh="' + sh.id + '">حذف</button>' +
+            '</div>' +
+          '</div>';
+      }
+      list.innerHTML = html;
+      document.body.classList.toggle('is-admin', isAdmin);
+    }
+
+    function exportBackupData() {
+      askPin(function () {
+        var payload = {
+          app: 'ashirat_alhashal',
+          version: 8,
+          exportedAt: new Date().toISOString(),
+          db: db
+        };
+        var jsonStr = JSON.stringify(payload, null, 2);
+        var blob = new Blob([jsonStr], { type: 'application/json;charset=utf-8' });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'ashirat-alhashal-backup.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+      });
+    }
+
+    function triggerImportBackupData() {
+      askPin(function () {
+        var inp = document.getElementById('importFileInput');
+        if (inp) {
+          inp.value = '';
+          inp.click();
+        }
+      });
+    }
+
+    function handleImportedFile(file) {
+      if (!file) return;
+      var reader = new FileReader();
+      reader.onload = function (ev) {
+        try {
+          var raw = JSON.parse(ev.target.result);
+          var candidate = (raw && raw.db && raw.db.people) ? raw.db : raw;
+          if (!candidate || !candidate.people || typeof candidate.people !== 'object') {
+            openModal('تنبيه', '<p style="color:#b83227;font-weight:700;">الملف المختار غير صالح أو لا يحتوي على بيانات المشجرة.</p>');
+            return;
+          }
+          if (!Array.isArray(candidate.ads)) candidate.ads = [];
+          if (!Array.isArray(candidate.shabbat)) candidate.shabbat = [];
+          if (!candidate.rootId || !candidate.people[candidate.rootId]) {
+            var keys = Object.keys(candidate.people);
+            candidate.rootId = keys.length > 0 ? keys[0] : null;
+          }
+          db = candidate;
+          saveDB();
+          openModal('تم الاستيراد', '<p style="color:#1f7a3e;font-weight:700;">تم استيراد بيانات المشجرة والإعلانات والشبات بنجاح.</p>');
+        } catch (err) {
+          openModal('تنبيه', '<p style="color:#b83227;font-weight:700;">تعذر قراءة ملف JSON. تأكد من اختيار ملف نسخة احتياطية صحيح.</p>');
+        }
+      };
+      reader.readAsText(file, 'utf-8');
+    }
+
+    function renderAll() {
+      renderTree();
+      renderAds();
+      renderShabbat();
+    }
+
+    var tabBtns = document.querySelectorAll('.tab-btn');
+    for (var t = 0; t < tabBtns.length; t++) {
+      tabBtns[t].onclick = function () {
+        switchTab(this.getAttribute('data-tab'));
+      };
+    }
+
+    document.getElementById('btnAdmin').onclick = function () {
+      if (isAdmin) setAdmin(false);
+      else askPin(function () {});
+    };
+    document.getElementById('btnAdminSettings').onclick = openAdminSettingsModal;
+    document.getElementById('btnAddAd').onclick = openAddAdModal;
+    document.getElementById('btnAddShabba').onclick = openAddShabbaModal;
+    document.getElementById('btnCloseModal').onclick = closeModal;
+
+    document.addEventListener('click', function (e) {
+      var childBtn = e.target.closest('[data-add-child]');
+      if (childBtn) {
+        e.preventDefault();
+        e.stopPropagation();
+        var now = Date.now();
+        if (now - lastClickTime < 250) return;
+        lastClickTime = now;
+        openAddForm('child', childBtn.getAttribute('data-add-child'));
+        return;
+      }
+      var personCard = e.target.closest('[data-open-person]');
+      if (personCard) {
+        openPersonDetails(personCard.getAttribute('data-open-person'));
+        return;
+      }
+      var viewImgEl = e.target.closest('[data-view-img]');
+      if (viewImgEl) {
+        openImageViewer(viewImgEl.getAttribute('data-view-img'), viewImgEl.getAttribute('data-view-title'));
+        return;
+      }
+      var delAdBtn = e.target.closest('[data-del-ad]');
+      if (delAdBtn) {
+        deleteAd(delAdBtn.getAttribute('data-del-ad'));
+        return;
+      }
+      var delShBtn = e.target.closest('[data-del-sh]');
+      if (delShBtn) {
+        deleteShabba(delShBtn.getAttribute('data-del-sh'));
+      }
+    }, true);
+
+    document.getElementById('btnExportData').onclick = exportBackupData;
+    document.getElementById('btnImportData').onclick = triggerImportBackupData;
+    document.getElementById('importFileInput').onchange = function (e) {
+      var f = e.target.files && e.target.files[0];
+      handleImportedFile(f);
+    };
+
+    setAdmin(false);
+    renderAll();
+  </script>
+</body>
+</html>
