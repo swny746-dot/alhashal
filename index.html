@@ -679,17 +679,24 @@
       renderAll();
     }
 
-    function switchTab(tabName) {
-      var tabs = document.querySelectorAll('.tab-btn');
-      for (var i = 0; i < tabs.length; i++) {
-        tabs[i].classList.toggle('active', tabs[i].getAttribute('data-tab') === tabName);
-      }
-      var views = document.querySelectorAll('.section-view');
-      for (var j = 0; j < views.length; j++) {
-        views[j].classList.remove('active');
-      }
-      var target = document.getElementById('view-' + tabName);
-      if (target) target.classList.add('active');
+   function switchTab(tabName) {
+  var tabs = document.querySelectorAll('.tab-btn');
+  for (var i = 0; i < tabs.length; i++) {
+    tabs[i].classList.toggle('active', tabs[i].getAttribute('data-tab') === tabName);
+  }
+  var views = document.querySelectorAll('.section-view');
+  for (var j = 0; j < views.length; j++) {
+    views[j].classList.remove('active');
+    views[j].style.display = '';
+  }
+  var target = document.getElementById('view-' + tabName);
+  if (target) {
+    target.classList.add('active');
+  }
+  if (typeof renderAll === 'function') {
+    renderAll();
+  }
+}
     }
 
     function openModal(title, html, focusId) {
