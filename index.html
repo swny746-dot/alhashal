@@ -126,13 +126,15 @@
 
     body:not(.is-admin) .admin-only { display: none !important; }
 
+    /* فصل الأقسام تماماً بحيث يظهر القسم النشط فقط */
     .section-view {
-      display: none;
-      flex: 1;
+      display: none !important;
+      width: 100%;
+      flex: 1 1 auto;
     }
 
     .section-view.active {
-      display: flex;
+      display: flex !important;
       flex-direction: column;
     }
 
@@ -140,15 +142,11 @@
     #view-tree {
       width: 100%;
       min-height: 75vh;
-      flex: 1 1 auto;
       overflow: auto;
-      padding: 32px 24px 100px;
+      padding: 28px 24px 90px;
       background-image: radial-gradient(#d8c8b2 1px, transparent 1px);
       background-size: 22px 22px;
-      display: flex;
-      flex-direction: column;
       align-items: center;
-      box-sizing: border-box;
     }
 
     .tree {
@@ -624,12 +622,12 @@
       var views = document.querySelectorAll('.section-view');
       for (var j = 0; j < views.length; j++) {
         views[j].classList.remove('active');
-        views[j].style.display = '';
       }
       var target = document.getElementById('view-' + tabName);
       if (target) {
         target.classList.add('active');
       }
+      window.scrollTo({ top: 0, behavior: 'instant' });
       renderAll();
     }
 
@@ -983,7 +981,7 @@
     }
 
     function escapeAttr(str) {
-      return String(str || '').replace(/&/g, '&').replace(/"/g, '"').replace(/</g, '<').replace(/>/g, '>');
+      return String(str || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     }
 
     function openImageViewer(src, title) {
@@ -1279,9 +1277,15 @@
     }
 
     function renderAll() {
-      renderTree();
-      renderAds();
-      renderShabbat();
+      var activeTab = document.querySelector('.section-view.active');
+      var activeId = activeTab ? activeTab.id : 'view-tree';
+      if (activeId === 'view-tree') {
+        renderTree();
+      } else if (activeId === 'view-ads') {
+        renderAds();
+      } else if (activeId === 'view-shabbat') {
+        renderShabbat();
+      }
     }
 
     function exportData() {
