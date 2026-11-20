@@ -126,21 +126,20 @@
 
     body:not(.is-admin) .admin-only { display: none !important; }
 
-    /* فصل الأقسام تماماً بحيث يظهر القسم النشط فقط */
+    /* إخفاء جميع الأقسام افتراضياً وإظهار النشط فقط */
     .section-view {
-      display: none !important;
+      display: none;
       width: 100%;
       flex: 1 1 auto;
     }
 
     .section-view.active {
-      display: flex !important;
+      display: flex;
       flex-direction: column;
     }
 
     /* ١- المشجره */
     #view-tree {
-      width: 100%;
       min-height: 75vh;
       overflow: auto;
       padding: 28px 24px 90px;
@@ -540,7 +539,7 @@
     var DAYS = ['السبت', 'الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة'];
 
     var defaultDB = {
-      rootId: 'n_hashal',
+      rootId: null,
       people: {},
       ads: [
         {
@@ -1308,7 +1307,7 @@
             var parsed = JSON.parse(ev.target.result);
             if (parsed && typeof parsed === 'object') {
               db = {
-                rootId: parsed.rootId || 'n_hashal',
+                rootId: parsed.rootId || null,
                 people: (parsed.people && typeof parsed.people === 'object') ? parsed.people : {},
                 ads: Array.isArray(parsed.ads) ? parsed.ads : [],
                 shabbat: Array.isArray(parsed.shabbat) ? parsed.shabbat : []
