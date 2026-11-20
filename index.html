@@ -919,21 +919,45 @@
       '</li>';
     }
 
-    function renderTree() {
-      var box = document.getElementById('treeBox');
-      if (!db.rootId || !db.people[db.rootId]) {
-        box.innerHTML =
-          '<div style="text-align:center;padding:30px;">' +
-            '<p style="margin-bottom:12px;">المشجره فارغة</p>' +
-            '<button type="button" class="btn btn-gold admin-only" id="btnEmptyAddRoot">+ إضافة جد مؤسس</button>' +
-          '</div>';
-        document.body.classList.toggle('is-admin', isAdmin);
-        var emptyBtn = document.getElementById('btnEmptyAddRoot');
-        if (emptyBtn) emptyBtn.onclick = function () { openAddForm('root'); };
-        return;
-      }
-      box.innerHTML = '<ul>' + drawNode(db.rootId) + '</ul>';
-    }
+   function renderTree() {
+  var box = document.getElementById('treeBox');
+  if (!db.rootId || !db.people[db.rootId]) {
+    box.innerHTML =
+      '<div style="text-align:center;padding:30px;">' +
+      '<p style="margin-bottom:12px;">المشجرة فارغة</p>' +
+      '<button type="button" class="btn btn-gold admin-only" id="btnEmptyAddRoot">+ إضافة جد مؤسس</button>' +
+      '</div>';
+    document.body.classList.toggle('is-admin', isAdmin);
+    var emptyBtn = document.getElementById('btnEmptyAddRoot');
+    if (emptyBtn) emptyBtn.onclick = function () { openAddForm('root'); };
+    return;
+  }
+
+  var zoomBar =
+    '<div id="treeZoomBar" style="position:sticky;top:8px;z-index:20;display:inline-flex;gap:6px;background:#f6efe2;border:1px solid #c8ad7f;padding:6px 10px;border-radius:10px;box-shadow:0 2px 8px rgba(60,40,15,0.12);margin-bottom:12px;">' +
+      '<button type="button" class="btn btn-light" id="zoomInBtn" title="تقريب">+</button>' +
+      '<button type="button" class="btn btn-light" id="zoomResetBtn" title="إعادة الضبط">100%</button>' +
+      '<button type="button" class="btn btn-light" id="zoomOutBtn" title="تبعيد">-</button>' +
+    '</div>';
+
+  box.innerHTML =
+    zoomBar +
+    '<div id="treeZoomCanvas" style="transform:scale(1);transform-origin:top center;transition:transform 0.15s ease;display:inline-block;">' +
+      '<ul>' + drawNode(db.rootId) + '</ul>' +
+    '</div>';
+
+  var scale = 1;
+  var canvas = document.getElementById('treeZoomCanvas');
+  function applyScale() {
+    if (canvas) canvas.style.transform = 'scale(' + scale.toFixed(2) + ')';
+  }
+  var zIn = document.getElementById('zoomInBtn');
+  var zOut = document.getElementById('zoomOutBtn');
+  var zReset = document.getElementById('zoomResetBtn');
+  if (zIn) zIn.onclick = function () { scale = Math.min(1.8, scale + 0.15); applyScale(); };
+  if (zOut) zOut.onclick = function () { scale = Math.max(0.5, scale - 0.15); applyScale(); };
+  if (zReset) zReset.onclick = function () { scale = 1; applyScale(); };
+}
 
     function escapeAttr(str) {
       return String(str || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
