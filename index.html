@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -138,115 +137,59 @@
     }
 
     /* ١- المشجره */
-#view-tree {
-  width: 100%;
-  min-height: 75vh;
-  flex: 1 1 auto;
-  overflow: auto;
-  padding: 32px 24px 100px;
-  background-image: radial-gradient(#d8c8b2 1px, transparent 1px);
-  background-size: 22px 22px;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  box-sizing: border-box;
-}
+    #view-tree {
+      width: 100%;
+      min-height: 75vh;
+      flex: 1 1 auto;
+      overflow: auto;
+      padding: 32px 24px 100px;
+      background-image: radial-gradient(#d8c8b2 1px, transparent 1px);
+      background-size: 22px 22px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-sizing: border-box;
+    }
 
-.tree {
-  margin: 0 auto;
-  width: max-content;
-  min-width: 100%;
-  display: flex;
-  justify-content: center;
-}
+    .tree {
+      margin: 0 auto;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
     .tree ul {
-  padding-top: 24px;
-  position: relative;
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 0;
-}
+      padding-top: 24px;
+      position: relative;
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 0;
+    }
 
-.tree li {
-  list-style: none;
-  text-align: center;
-  position: relative;
-  padding: 24px 10px 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+    .tree li {
+      list-style: none;
+      text-align: center;
+      position: relative;
+      padding: 24px 10px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
-/* الخط النازل من الأب إلى خط الأبناء الأفقي */
-.tree ul::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  border-left: 2px solid #8c6d4f;
-  width: 0;
-  height: 24px;
-}
+    .tree li::before,
+    .tree li::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 50%;
+      border-top: 2px solid #8c6d4f;
+      width: 50%;
+      height: 24px;
+    }
 
-/* الخطوط الأفقية والعمودية لكل ابن */
-.tree li::before,
-.tree li::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 50%;
-  border-top: 2px solid #8c6d4f;
-  width: 50%;
-  height: 24px;
-}
-
-.tree li::after {
-  right: auto;
-  left: 50%;
-  border-left: 2px solid #8c6d4f;
-}
-
-/* إخفاء الخطوط الزائدة على الطرفين */
-.tree li:only-child::after,
-.tree li:only-child::before {
-  display: none;
-}
-
-.tree li:only-child {
-  padding-top: 0;
-}
-
-.tree li:first-child::before,
-.tree li:last-child::after {
-  border: 0 none;
-}
-
-/* إبقاء الخط العمودي للابن الأول والأخير */
-.tree li:last-child::before {
-  border-left: 2px solid #8c6d4f;
-  border-radius: 0 6px 0 0;
-}
-
-.tree li:first-child::after {
-  border-radius: 6px 0 0 0;
-}
-
-/* خط صغير نازل من كرت الأب إلى بداية ul */
-.tree li > div + ul::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  border-left: 2px solid #8c6d4f;
-  height: 24px;
-}  
-    
-        height: 24px;
-      }
     .tree li::after {
       right: auto;
       left: 50%;
@@ -278,13 +221,13 @@
 
     .tree li:last-child::before {
       border-left: 2px solid #8c6d4f;
-      border-radius: 6px 0 0 0;
+      border-radius: 0 6px 0 0;
     }
 
     .tree li:first-child::after {
       border-right: 2px solid #8c6d4f;
       border-left: 0;
-      border-radius: 0 6px 0 0;
+      border-radius: 6px 0 0 0;
     }
 
     .tree ul ul::before {
@@ -455,7 +398,6 @@
       gap: 8px;
     }
 
-    /* اختيار أكثر من يوم للشبة */
     .days-picker {
       display: flex;
       flex-wrap: wrap;
@@ -491,7 +433,6 @@
       color: #3b2618;
     }
 
-    /* النوافذ المنبثقة */
     .modal-bg {
       position: fixed;
       inset: 0;
@@ -602,10 +543,7 @@
 
     var defaultDB = {
       rootId: 'n_hashal',
-     people: {
-
-
-    },
+      people: {},
       ads: [
         {
           id: 'ad_1',
@@ -634,7 +572,6 @@
     var mode = 'child';
     var targetParentId = null;
     var pendingAction = null;
-    var lastClickTime = 0;
 
     function loadPins() {
       try {
@@ -679,24 +616,22 @@
       renderAll();
     }
 
-   function switchTab(tabName) {
-  var tabs = document.querySelectorAll('.tab-btn');
-  for (var i = 0; i < tabs.length; i++) {
-    tabs[i].classList.toggle('active', tabs[i].getAttribute('data-tab') === tabName);
-  }
-  var views = document.querySelectorAll('.section-view');
-  for (var j = 0; j < views.length; j++) {
-    views[j].classList.remove('active');
-    views[j].style.display = '';
-  }
-  var target = document.getElementById('view-' + tabName);
-  if (target) {
-    target.classList.add('active');
-  }
-  if (typeof renderAll === 'function') {
-    renderAll();
-  }
-}
+    function switchTab(tabName) {
+      var tabs = document.querySelectorAll('.tab-btn');
+      for (var i = 0; i < tabs.length; i++) {
+        tabs[i].classList.toggle('active', tabs[i].getAttribute('data-tab') === tabName);
+      }
+      var views = document.querySelectorAll('.section-view');
+      for (var j = 0; j < views.length; j++) {
+        views[j].classList.remove('active');
+        views[j].style.display = '';
+      }
+      var target = document.getElementById('view-' + tabName);
+      if (target) {
+        target.classList.add('active');
+      }
+      renderAll();
+    }
 
     function openModal(title, html, focusId) {
       document.getElementById('modalTitle').textContent = title;
@@ -949,106 +884,106 @@
       '</li>';
     }
 
-function renderTree() {
-  var box = document.getElementById('treeBox');
-  if (!db.rootId || !db.people[db.rootId]) {
-    box.innerHTML =
-      '<div style="text-align:center;padding:30px;">' +
-      '<p style="margin-bottom:12px;">المشجرة فارغة</p>' +
-      '<button type="button" class="btn btn-gold admin-only" id="btnEmptyAddRoot">+ إضافة جد مؤسس</button>' +
-      '</div>';
-    document.body.classList.toggle('is-admin', isAdmin);
-    var emptyBtn = document.getElementById('btnEmptyAddRoot');
-    if (emptyBtn) emptyBtn.onclick = function () { openAddForm('root'); };
-    return;
-  }
+    function renderTree() {
+      var box = document.getElementById('treeBox');
+      if (!box) return;
+      if (!db.rootId || !db.people[db.rootId]) {
+        box.innerHTML =
+          '<div style="text-align:center;padding:30px;">' +
+          '<p style="margin-bottom:12px;">المشجرة فارغة</p>' +
+          '<button type="button" class="btn btn-gold admin-only" id="btnEmptyAddRoot">+ إضافة جد مؤسس</button>' +
+          '</div>';
+        document.body.classList.toggle('is-admin', isAdmin);
+        var emptyBtn = document.getElementById('btnEmptyAddRoot');
+        if (emptyBtn) emptyBtn.onclick = function () { openAddForm('root'); };
+        return;
+      }
 
-  var zoomBar =
-    '<div id="treeZoomBar" style="position:sticky;top:8px;z-index:20;display:inline-flex;align-items:center;gap:6px;background:#f6efe2;border:1px solid #c8ad7f;padding:6px 10px;border-radius:10px;box-shadow:0 2px 8px rgba(60,40,15,0.12);margin-bottom:12px;">' +
-      '<button type="button" class="btn btn-light" id="zoomInBtn" title="تقريب">+</button>' +
-      '<input type="number" id="zoomInput" min="30" max="200" step="5" value="100" style="width:64px;text-align:center;padding:6px;border:1px solid #c8ad7f;border-radius:8px;font-weight:700;background:#fff;">' +
-      '<span style="font-size:0.85rem;font-weight:700;">%</span>' +
-      '<button type="button" class="btn btn-light" id="zoomResetBtn" title="إعادة الضبط">100%</button>' +
-      '<button type="button" class="btn btn-light" id="zoomOutBtn" title="تبعيد">-</button>' +
-    '</div>';
+      var zoomBar =
+        '<div id="treeZoomBar" style="position:sticky;top:8px;z-index:20;display:inline-flex;align-items:center;gap:6px;background:#f6efe2;border:1px solid #c8ad7f;padding:6px 10px;border-radius:10px;box-shadow:0 2px 8px rgba(60,40,15,0.12);margin-bottom:12px;">' +
+          '<button type="button" class="btn btn-light" id="zoomInBtn" title="تقريب">+</button>' +
+          '<input type="number" id="zoomInput" min="30" max="200" step="5" value="100" style="width:64px;text-align:center;padding:6px;border:1px solid #c8ad7f;border-radius:8px;font-weight:700;background:#fff;">' +
+          '<span style="font-size:0.85rem;font-weight:700;">%</span>' +
+          '<button type="button" class="btn btn-light" id="zoomResetBtn" title="إعادة الضبط">100%</button>' +
+          '<button type="button" class="btn btn-light" id="zoomOutBtn" title="تبعيد">-</button>' +
+        '</div>';
 
-  box.innerHTML =
-    zoomBar +
-    '<div id="treeViewport" style="position:relative;width:100%;min-height:420px;overflow:auto;cursor:grab;user-select:none;">' +
-      '<div id="treeZoomCanvas" style="position:relative;display:inline-block;transform:translate(0px,0px) scale(1);transform-origin:0 0;transition:transform 0.08s ease-out;">' +
-        '<ul>' + drawNode(db.rootId) + '</ul>' +
-      '</div>' +
-    '</div>';
+      box.innerHTML =
+        zoomBar +
+        '<div id="treeViewport" style="position:relative;width:100%;min-height:420px;overflow:auto;cursor:grab;user-select:none;">' +
+          '<div id="treeZoomCanvas" style="position:relative;display:inline-block;transform:translate(0px,0px) scale(1);transform-origin:0 0;transition:transform 0.08s ease-out;">' +
+            '<ul>' + drawNode(db.rootId) + '</ul>' +
+          '</div>' +
+        '</div>';
 
-  var scale = 1;
-  var posX = 0;
-  var posY = 0;
-  var isDragging = false;
-  var startX = 0;
-  var startY = 0;
+      var scale = 1;
+      var posX = 0;
+      var posY = 0;
+      var isDragging = false;
+      var startX = 0;
+      var startY = 0;
 
-  var viewport = document.getElementById('treeViewport');
-  var canvas = document.getElementById('treeZoomCanvas');
-  var zoomInput = document.getElementById('zoomInput');
-  var zIn = document.getElementById('zoomInBtn');
-  var zOut = document.getElementById('zoomOutBtn');
-  var zReset = document.getElementById('zoomResetBtn');
+      var viewport = document.getElementById('treeViewport');
+      var canvas = document.getElementById('treeZoomCanvas');
+      var zoomInput = document.getElementById('zoomInput');
+      var zIn = document.getElementById('zoomInBtn');
+      var zOut = document.getElementById('zoomOutBtn');
+      var zReset = document.getElementById('zoomResetBtn');
 
-  function applyTransform() {
-    if (canvas) {
-      canvas.style.transform = 'translate(' + posX + 'px, ' + posY + 'px) scale(' + scale.toFixed(2) + ')';
+      function applyTransform() {
+        if (canvas) {
+          canvas.style.transform = 'translate(' + posX + 'px, ' + posY + 'px) scale(' + scale.toFixed(2) + ')';
+        }
+        if (zoomInput) {
+          zoomInput.value = Math.round(scale * 100);
+        }
+      }
+
+      function setScalePercent(pct) {
+        var num = parseFloat(pct);
+        if (isNaN(num)) return;
+        num = Math.max(30, Math.min(200, num));
+        scale = num / 100;
+        applyTransform();
+      }
+
+      if (zIn) zIn.onclick = function () { setScalePercent((scale * 100) + 10); };
+      if (zOut) zOut.onclick = function () { setScalePercent((scale * 100) - 10); };
+      if (zReset) zReset.onclick = function () { posX = 0; posY = 0; setScalePercent(100); };
+
+      if (zoomInput) {
+        zoomInput.onchange = function () { setScalePercent(zoomInput.value); };
+        zoomInput.onkeydown = function (e) {
+          if (e.key === 'Enter') setScalePercent(zoomInput.value);
+        };
+      }
+
+      if (viewport) {
+        viewport.onmousedown = function (e) {
+          if (e.target.closest('.card') || e.target.closest('button') || e.target.closest('input')) return;
+          isDragging = true;
+          startX = e.clientX - posX;
+          startY = e.clientY - posY;
+          viewport.style.cursor = 'grabbing';
+        };
+
+        window.addEventListener('mousemove', function (e) {
+          if (!isDragging) return;
+          posX = e.clientX - startX;
+          posY = e.clientY - startY;
+          applyTransform();
+        });
+
+        window.addEventListener('mouseup', function () {
+          if (!isDragging) return;
+          isDragging = false;
+          if (viewport) viewport.style.cursor = 'grab';
+        });
+      }
     }
-    if (zoomInput) {
-      zoomInput.value = Math.round(scale * 100);
-    }
-  }
-
-  function setScalePercent(pct) {
-    var num = parseFloat(pct);
-    if (isNaN(num)) return;
-    num = Math.max(30, Math.min(200, num));
-    scale = num / 100;
-    applyTransform();
-  }
-
-  if (zIn) zIn.onclick = function () { setScalePercent((scale * 100) + 10); };
-  if (zOut) zOut.onclick = function () { setScalePercent((scale * 100) - 10); };
-  if (zReset) zReset.onclick = function () { posX = 0; posY = 0; setScalePercent(100); };
-
-  if (zoomInput) {
-    zoomInput.onchange = function () { setScalePercent(zoomInput.value); };
-    zoomInput.onkeydown = function (e) {
-      if (e.key === 'Enter') setScalePercent(zoomInput.value);
-    };
-  }
-
-  if (viewport) {
-    viewport.onmousedown = function (e) {
-      if (e.target.closest('.card') || e.target.closest('button') || e.target.closest('input')) return;
-      isDragging = true;
-      startX = e.clientX - posX;
-      startY = e.clientY - posY;
-      viewport.style.cursor = 'grabbing';
-    };
-
-    window.addEventListener('mousemove', function (e) {
-      if (!isDragging) return;
-      posX = e.clientX - startX;
-      posY = e.clientY - startY;
-      applyTransform();
-    });
-
-    window.addEventListener('mouseup', function () {
-      if (!isDragging) return;
-      isDragging = false;
-      if (viewport) viewport.style.cursor = 'grab';
-    });
-  }
-}  
-
 
     function escapeAttr(str) {
-      return String(str || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      return String(str || '').replace(/&/g, '&').replace(/"/g, '"').replace(/</g, '<').replace(/>/g, '>');
     }
 
     function openImageViewer(src, title) {
@@ -1085,13 +1020,11 @@ function renderTree() {
             '<textarea id="adBody" placeholder="اكتب تفاصيل الإعلان هنا..."></textarea>' +
           '</div>' +
           '<div class="field">' +
-            '<label>صورة الإعلان (اختياري)</label>' +
-            '<input type="file" id="adImgFile" accept="image/*" />' +
+            '<label>صورة مرفقة (اختياري)</label>' +
+            '<input type="file" id="adImageFile" accept="image/*" />' +
             '<div class="img-preview-box" id="adImgPreviewBox">' +
               '<img id="adImgPreview" alt="معاينة الصورة" />' +
-              '<div class="btns-row" style="margin-top:6px;">' +
-                '<button type="button" class="btn btn-light" id="btnClearAdImg">إزالة الصورة</button>' +
-              '</div>' +
+              '<div class="btns-row"><button type="button" class="btn btn-light" id="btnRemoveAdImg">إزالة الصورة</button></div>' +
             '</div>' +
           '</div>' +
           '<div class="btns-row">' +
@@ -1103,80 +1036,52 @@ function renderTree() {
 
         var tagSelect = document.getElementById('adTagSelect');
         var tagCustom = document.getElementById('adTagCustom');
-        if (tagSelect && tagCustom) {
-          tagSelect.onchange = function () {
-            if (tagSelect.value === '__custom__') {
-              tagCustom.style.display = 'block';
-              tagCustom.focus();
-            } else {
-              tagCustom.style.display = 'none';
-            }
+        tagSelect.onchange = function () {
+          tagCustom.style.display = tagSelect.value === '__custom__' ? 'block' : 'none';
+          if (tagSelect.value === '__custom__') tagCustom.focus();
+        };
+
+        var fileInput = document.getElementById('adImageFile');
+        var previewBox = document.getElementById('adImgPreviewBox');
+        var previewImg = document.getElementById('adImgPreview');
+        var btnRemoveImg = document.getElementById('btnRemoveAdImg');
+
+        fileInput.onchange = function () {
+          var file = fileInput.files && fileInput.files[0];
+          if (!file) return;
+          var reader = new FileReader();
+          reader.onload = function (ev) {
+            uploadedImageData = ev.target.result || '';
+            previewImg.src = uploadedImageData;
+            previewBox.classList.add('show');
           };
-        }
+          reader.readAsDataURL(file);
+        };
 
-        var imgInput = document.getElementById('adImgFile');
-        var prevBox = document.getElementById('adImgPreviewBox');
-        var prevImg = document.getElementById('adImgPreview');
-        var clearImgBtn = document.getElementById('btnClearAdImg');
+        btnRemoveImg.onclick = function () {
+          uploadedImageData = '';
+          fileInput.value = '';
+          previewImg.src = '';
+          previewBox.classList.remove('show');
+        };
 
-        if (imgInput) {
-          imgInput.onchange = function () {
-            var file = imgInput.files && imgInput.files[0];
-            if (!file) return;
-            var reader = new FileReader();
-            reader.onload = function (ev) {
-              var tempImg = new Image();
-              tempImg.onload = function () {
-                var maxW = 1000;
-                var w = tempImg.width;
-                var h = tempImg.height;
-                if (w > maxW) {
-                  h = Math.round((h * maxW) / w);
-                  w = maxW;
-                }
-                var canvas = document.createElement('canvas');
-                canvas.width = w;
-                canvas.height = h;
-                var ctx = canvas.getContext('2d');
-                ctx.drawImage(tempImg, 0, 0, w, h);
-                uploadedImageData = canvas.toDataURL('image/jpeg', 0.82);
-                prevImg.src = uploadedImageData;
-                prevBox.classList.add('show');
-              };
-              tempImg.src = ev.target.result;
-            };
-            reader.readAsDataURL(file);
-          };
-        }
-
-        if (clearImgBtn) {
-          clearImgBtn.onclick = function () {
-            uploadedImageData = '';
-            if (imgInput) imgInput.value = '';
-            if (prevImg) prevImg.src = '';
-            if (prevBox) prevBox.classList.remove('show');
-          };
-        }
-
+        document.getElementById('btnCancelAd').onclick = closeModal;
         document.getElementById('btnSaveAd').onclick = function () {
           var title = (document.getElementById('adTitle').value || '').trim();
           var body = (document.getElementById('adBody').value || '').trim();
-          var chosenTag = tagSelect ? tagSelect.value : 'عرس';
-          var tag = chosenTag === '__custom__'
-            ? ((tagCustom && tagCustom.value) || '').trim()
-            : chosenTag;
+          var tag = tagSelect.value === '__custom__'
+            ? ((tagCustom.value || '').trim() || 'إعلان')
+            : tagSelect.value;
+
           if (!title || !body) {
             document.getElementById('adErr').textContent = 'اكتب عنوان الإعلان ونصه أولاً';
             return;
           }
-          if (chosenTag === '__custom__' && !tag) {
-            document.getElementById('adErr').textContent = 'اكتب اسم التصنيف في خانة أخرى';
-            return;
-          }
+
           db.ads.unshift({
             id: 'ad_' + Date.now(),
             title: title,
-            tag: tag || 'إعلان',
+            tag: tag,
             body: body,
             image: uploadedImageData,
             date: new Date().toLocaleDateString('ar-SA')
@@ -1184,54 +1089,25 @@ function renderTree() {
           saveDB();
           closeModal();
         };
-        document.getElementById('btnCancelAd').onclick = closeModal;
       });
     }
 
     function deleteAd(id) {
       askPin(function () {
-        db.ads = db.ads.filter(function (item) { return item.id !== id; });
+        db.ads = db.ads.filter(function (a) { return a.id !== id; });
         saveDB();
       });
     }
 
-    function renderAds() {
-      var list = document.getElementById('adsList');
-      if (!db.ads || db.ads.length === 0) {
-        list.innerHTML = '<div class="empty-box">لا توجد إعلانات حالياً.</div>';
-        return;
-      }
-      var html = '';
-      for (var i = 0; i < db.ads.length; i++) {
-        var ad = db.ads[i];
-        var imgHtml = ad.image
-          ? ('<img class="ad-img" data-view-img="' + escapeAttr(ad.image) + '" data-view-title="' + escapeAttr(ad.title) + '" src="' + escapeAttr(ad.image) + '" alt="' + escapeAttr(ad.title) + '" />')
-          : '';
-        html +=
-          '<div class="info-card">' +
-            imgHtml +
-            '<div class="info-card-top">' +
-              '<h3>' + ad.title + '</h3>' +
-              '<span class="badge">' + ad.tag + '</span>' +
-            '</div>' +
-            '<p>' + ad.body + '</p>' +
-            '<div class="info-meta">' +
-              '<span>' + (ad.date || '') + '</span>' +
-              '<button type="button" class="btn btn-red admin-only" data-del-ad="' + ad.id + '">حذف</button>' +
-            '</div>' +
-          '</div>';
-      }
-      list.innerHTML = html;
-      document.body.classList.toggle('is-admin', isAdmin);
-    }
-
-    function buildDaysCheckboxes() {
-      var html = '<div class="days-picker" id="shDaysPicker">';
+    function buildDaysPickerHtml(selectedDays) {
+      var sel = Array.isArray(selectedDays) ? selectedDays : [];
+      var html = '<div class="days-picker" id="daysPicker">';
       for (var i = 0; i < DAYS.length; i++) {
         var d = DAYS[i];
+        var checked = sel.indexOf(d) !== -1;
         html +=
-          '<label class="day-chip">' +
-            '<input type="checkbox" class="sh-day-cb" value="' + d + '" />' +
+          '<label class="day-chip' + (checked ? ' selected' : '') + '">' +
+            '<input type="checkbox" value="' + escapeAttr(d) + '"' + (checked ? ' checked' : '') + ' />' +
             '<span>' + d + '</span>' +
           '</label>';
       }
@@ -1239,23 +1115,27 @@ function renderTree() {
       return html;
     }
 
-    function getSelectedDays() {
-      var chosen = [];
-      var boxes = document.querySelectorAll('#shDaysPicker .sh-day-cb');
-      for (var i = 0; i < boxes.length; i++) {
-        if (boxes[i].checked) chosen.push(boxes[i].value);
+    function bindDaysPickerEvents() {
+      var picker = document.getElementById('daysPicker');
+      if (!picker) return;
+      var checkboxes = picker.querySelectorAll('input[type="checkbox"]');
+      for (var i = 0; i < checkboxes.length; i++) {
+        checkboxes[i].onchange = function () {
+          var lbl = this.closest('.day-chip');
+          if (lbl) lbl.classList.toggle('selected', this.checked);
+        };
       }
-      return chosen;
     }
 
-    function normalizeMapUrl(rawVal) {
-      var val = (rawVal || '').trim();
-      if (!val) return '';
-      if (/^https?:\/\//i.test(val)) return val;
-      if (/^maps\.google\.|goo\.gl\/maps|maps\.app\.goo\.gl/i.test(val)) {
-        return 'https://' + val;
+    function getSelectedDays() {
+      var picker = document.getElementById('daysPicker');
+      if (!picker) return [];
+      var checkedBoxes = picker.querySelectorAll('input[type="checkbox"]:checked');
+      var res = [];
+      for (var i = 0; i < checkedBoxes.length; i++) {
+        res.push(checkedBoxes[i].value);
       }
-      return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(val);
+      return res;
     }
 
     function openAddShabbaModal() {
@@ -1263,169 +1143,139 @@ function renderTree() {
         openModal(
           'إضافة شبة جديدة',
           '<div class="field">' +
-            '<label>اسم / عنوان الشبة *</label>' +
-            '<input type="text" id="shTitle" placeholder="مثال: شبة نهاية الأسبوع..." />' +
+            '<label>اسم الشبة / المجلس *</label>' +
+            '<input type="text" id="shTitle" placeholder="مثال: شبة المساء..." />' +
             '<div class="err-msg" id="shErr"></div>' +
           '</div>' +
           '<div class="field">' +
-            '<label>أيام الأسبوع (يمكن اختيار أكثر من يوم)</label>' +
-            buildDaysCheckboxes() +
-          '</div>' +
-          '<div class="field">' +
-            '<label>الموقع (رابط أو إحداثيات أو اسم موقع من قوقل ماب)</label>' +
-            '<input type="text" id="shMap" placeholder="الصق رابط قوقل ماب أو الإحداثيات هنا..." />' +
+            '<label>الأيام (يمكن اختيار أكثر من يوم)</label>' +
+            buildDaysPickerHtml(['الخميس']) +
           '</div>' +
           '<div class="field">' +
             '<label>الوقت</label>' +
-            '<input type="text" id="shTime" placeholder="مثال: بعد العشاء..." />' +
+            '<input type="text" id="shTime" placeholder="مثال: بعد صلاة العشاء" />' +
+          '</div>' +
+          '<div class="field">' +
+            '<label>رابط الموقع على الخريطة (Google Maps)</label>' +
+            '<input type="url" id="shMapUrl" placeholder="https://maps.google.com/?q=..." />' +
           '</div>' +
           '<div class="field">' +
             '<label>ملاحظات</label>' +
-            '<textarea id="shNotes" placeholder="تفاصيل إضافية عن الشبة..."></textarea>' +
+            '<textarea id="shNotes" placeholder="تفاصيل إضافية..."></textarea>' +
           '</div>' +
           '<div class="btns-row">' +
-            '<button type="button" class="btn btn-gold" id="btnSaveSh">حفظ الشبة</button>' +
-            '<button type="button" class="btn btn-light" id="btnCancelSh">إلغاء</button>' +
+            '<button type="button" class="btn btn-gold" id="btnSaveShabba">حفظ الشبة</button>' +
+            '<button type="button" class="btn btn-light" id="btnCancelShabba">إلغاء</button>' +
           '</div>',
           'shTitle'
         );
 
-        var picker = document.getElementById('shDaysPicker');
-        if (picker) {
-          picker.onchange = function (e) {
-            var cb = e.target.closest('.sh-day-cb');
-            if (cb && cb.parentElement) {
-              cb.parentElement.classList.toggle('selected', cb.checked);
-            }
-          };
-        }
-
-        document.getElementById('btnSaveSh').onclick = function () {
+        bindDaysPickerEvents();
+        document.getElementById('btnCancelShabba').onclick = closeModal;
+        document.getElementById('btnSaveShabba').onclick = function () {
           var title = (document.getElementById('shTitle').value || '').trim();
-          var daysList = getSelectedDays();
-          var mapUrl = normalizeMapUrl(document.getElementById('shMap').value);
-          var time = (document.getElementById('shTime').value || '').trim();
+          var days = getSelectedDays();
+          var time = (document.getElementById('shTime').value || '').trim() || 'حسب المعلن';
+          var mapUrl = (document.getElementById('shMapUrl').value || '').trim();
           var notes = (document.getElementById('shNotes').value || '').trim();
+
           if (!title) {
-            document.getElementById('shErr').textContent = 'اكتب عنوان الشبة أولاً';
+            document.getElementById('shErr').textContent = 'اكتب اسم الشبة أولاً';
             return;
           }
+          if (days.length === 0) days = ['حسب المعلن'];
+
           db.shabbat.unshift({
             id: 'sh_' + Date.now(),
             title: title,
-            days: daysList,
+            days: days,
+            time: time,
             mapUrl: mapUrl,
-            time: time || 'غير محدد',
             notes: notes
           });
           saveDB();
           closeModal();
         };
-        document.getElementById('btnCancelSh').onclick = closeModal;
       });
     }
 
     function deleteShabba(id) {
       askPin(function () {
-        db.shabbat = db.shabbat.filter(function (item) { return item.id !== id; });
+        db.shabbat = db.shabbat.filter(function (s) { return s.id !== id; });
         saveDB();
       });
     }
 
-    function formatShabbaDays(sh) {
-      if (Array.isArray(sh.days) && sh.days.length > 0) return sh.days.join('، ');
-      if (sh.day) return sh.day;
-      return '';
-    }
-
-    function renderShabbat() {
-      var list = document.getElementById('shabbatList');
-      if (!db.shabbat || db.shabbat.length === 0) {
-        list.innerHTML = '<div class="empty-box">لا توجد شبات مسجلة حالياً.</div>';
+    function renderAds() {
+      var list = document.getElementById('adsList');
+      if (!list) return;
+      if (!db.ads || db.ads.length === 0) {
+        list.innerHTML = '<div class="empty-box">لا توجد إعلانات حالياً</div>';
         return;
       }
+
       var html = '';
-      for (var i = 0; i < db.shabbat.length; i++) {
-        var sh = db.shabbat[i];
-        var daysText = formatShabbaDays(sh);
-        var dayLine = daysText ? ('<strong>الأيام:</strong> ' + daysText + '\n') : '';
-        var badgeText = (Array.isArray(sh.days) && sh.days.length > 1) ? (sh.days.length + ' أيام') : (daysText || 'شبة');
-        var mapLinkHtml = sh.mapUrl
-          ? ('<a class="map-link-btn" href="' + escapeAttr(sh.mapUrl) + '" target="_blank" rel="noopener noreferrer">📍 فتح الموقع في قوقل ماب</a>')
-          : '<span>الموقع: غير محدد</span>';
+      for (var i = 0; i < db.ads.length; i++) {
+        var ad = db.ads[i];
+        var imgHtml = ad.image
+          ? '<img src="' + escapeAttr(ad.image) + '" alt="' + escapeAttr(ad.title) + '" class="ad-img" data-view-img="' + escapeAttr(ad.image) + '" data-view-title="' + escapeAttr(ad.title) + '" />'
+          : '';
+        var delBtn = isAdmin
+          ? '<button type="button" class="btn btn-red" data-del-ad="' + ad.id + '">حذف</button>'
+          : '';
+
         html +=
           '<div class="info-card">' +
+            imgHtml +
             '<div class="info-card-top">' +
-              '<h3>' + sh.title + '</h3>' +
-              '<span class="badge">' + badgeText + '</span>' +
+              '<h3>' + escapeAttr(ad.title) + '</h3>' +
+              '<span class="badge">' + escapeAttr(ad.tag || 'إعلان') + '</span>' +
             '</div>' +
-            '<p>' + dayLine + '<strong>الوقت:</strong> ' + sh.time + (sh.notes ? ('\n' + sh.notes) : '') + '</p>' +
+            '<p>' + escapeAttr(ad.body) + '</p>' +
             '<div class="info-meta">' +
-              mapLinkHtml +
-              '<button type="button" class="btn btn-red admin-only" data-del-sh="' + sh.id + '">حذف</button>' +
+              '<span>' + escapeAttr(ad.date || '') + '</span>' +
+              delBtn +
             '</div>' +
           '</div>';
       }
       list.innerHTML = html;
-      document.body.classList.toggle('is-admin', isAdmin);
     }
 
-    function exportBackupData() {
-      askPin(function () {
-        var payload = {
-          app: 'ashirat_alhashal',
-          version: 8,
-          exportedAt: new Date().toISOString(),
-          db: db
-        };
-        var jsonStr = JSON.stringify(payload, null, 2);
-        var blob = new Blob([jsonStr], { type: 'application/json;charset=utf-8' });
-        var url = URL.createObjectURL(blob);
-        var a = document.createElement('a');
-        a.href = url;
-        a.download = 'ashirat-alhashal-backup.json';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
-      });
-    }
+    function renderShabbat() {
+      var list = document.getElementById('shabbatList');
+      if (!list) return;
+      if (!db.shabbat || db.shabbat.length === 0) {
+        list.innerHTML = '<div class="empty-box">لا توجد شبات مسجلة حالياً</div>';
+        return;
+      }
 
-    function triggerImportBackupData() {
-      askPin(function () {
-        var inp = document.getElementById('importFileInput');
-        if (inp) {
-          inp.value = '';
-          inp.click();
-        }
-      });
-    }
+      var html = '';
+      for (var i = 0; i < db.shabbat.length; i++) {
+        var sh = db.shabbat[i];
+        var daysText = Array.isArray(sh.days) ? sh.days.join(' - ') : (sh.days || '');
+        var mapBtn = sh.mapUrl
+          ? '<a href="' + escapeAttr(sh.mapUrl) + '" target="_blank" rel="noopener noreferrer" class="map-link-btn">📍 الموقع على الخريطة</a>'
+          : '';
+        var delBtn = isAdmin
+          ? '<button type="button" class="btn btn-red" data-del-sh="' + sh.id + '">حذف</button>'
+          : '';
 
-    function handleImportedFile(file) {
-      if (!file) return;
-      var reader = new FileReader();
-      reader.onload = function (ev) {
-        try {
-          var raw = JSON.parse(ev.target.result);
-          var candidate = (raw && raw.db && raw.db.people) ? raw.db : raw;
-          if (!candidate || !candidate.people || typeof candidate.people !== 'object') {
-            openModal('تنبيه', '<p style="color:#b83227;font-weight:700;">الملف المختار غير صالح أو لا يحتوي على بيانات المشجرة.</p>');
-            return;
-          }
-          if (!Array.isArray(candidate.ads)) candidate.ads = [];
-          if (!Array.isArray(candidate.shabbat)) candidate.shabbat = [];
-          if (!candidate.rootId || !candidate.people[candidate.rootId]) {
-            var keys = Object.keys(candidate.people);
-            candidate.rootId = keys.length > 0 ? keys[0] : null;
-          }
-          db = candidate;
-          saveDB();
-          openModal('تم الاستيراد', '<p style="color:#1f7a3e;font-weight:700;">تم استيراد بيانات المشجرة والإعلانات والشبات بنجاح.</p>');
-        } catch (err) {
-          openModal('تنبيه', '<p style="color:#b83227;font-weight:700;">تعذر قراءة ملف JSON. تأكد من اختيار ملف نسخة احتياطية صحيح.</p>');
-        }
-      };
-      reader.readAsText(file, 'utf-8');
+        html +=
+          '<div class="info-card">' +
+            '<div class="info-card-top">' +
+              '<h3>' + escapeAttr(sh.title) + '</h3>' +
+              '<span class="badge">' + escapeAttr(daysText) + '</span>' +
+            '</div>' +
+            '<p><strong>الوقت:</strong> ' + escapeAttr(sh.time || '') + '</p>' +
+            (sh.notes ? '<p>' + escapeAttr(sh.notes) + '</p>' : '') +
+            (mapBtn ? '<div>' + mapBtn + '</div>' : '') +
+            '<div class="info-meta">' +
+              '<span>' + escapeAttr(daysText) + '</span>' +
+              delBtn +
+            '</div>' +
+          '</div>';
+      }
+      list.innerHTML = html;
     }
 
     function renderAll() {
@@ -1434,13 +1284,83 @@ function renderTree() {
       renderShabbat();
     }
 
-    var tabBtns = document.querySelectorAll('.tab-btn');
-    for (var t = 0; t < tabBtns.length; t++) {
-      tabBtns[t].onclick = function () {
-        switchTab(this.getAttribute('data-tab'));
-      };
+    function exportData() {
+      askPin(function () {
+        var blob = new Blob([JSON.stringify(db, null, 2)], { type: 'application/json' });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'alhashal-data.json';
+        a.click();
+        URL.revokeObjectURL(url);
+      });
     }
 
+    function importDataFile(file) {
+      askPin(function () {
+        var reader = new FileReader();
+        reader.onload = function (ev) {
+          try {
+            var parsed = JSON.parse(ev.target.result);
+            if (parsed && typeof parsed === 'object') {
+              db = {
+                rootId: parsed.rootId || 'n_hashal',
+                people: (parsed.people && typeof parsed.people === 'object') ? parsed.people : {},
+                ads: Array.isArray(parsed.ads) ? parsed.ads : [],
+                shabbat: Array.isArray(parsed.shabbat) ? parsed.shabbat : []
+              };
+              saveDB();
+            }
+          } catch (err) {}
+        };
+        reader.readAsText(file);
+      });
+    }
+
+    document.addEventListener('click', function (e) {
+      var tabBtn = e.target.closest('.tab-btn');
+      if (tabBtn) {
+        switchTab(tabBtn.getAttribute('data-tab'));
+        return;
+      }
+
+      var addChildBtn = e.target.closest('[data-add-child]');
+      if (addChildBtn) {
+        e.stopPropagation();
+        openAddForm('child', addChildBtn.getAttribute('data-add-child'));
+        return;
+      }
+
+      var personCard = e.target.closest('[data-open-person]');
+      if (personCard) {
+        openPersonDetails(personCard.getAttribute('data-open-person'));
+        return;
+      }
+
+      var viewImg = e.target.closest('[data-view-img]');
+      if (viewImg) {
+        openImageViewer(viewImg.getAttribute('data-view-img'), viewImg.getAttribute('data-view-title'));
+        return;
+      }
+
+      var delAdBtn = e.target.closest('[data-del-ad]');
+      if (delAdBtn) {
+        deleteAd(delAdBtn.getAttribute('data-del-ad'));
+        return;
+      }
+
+      var delShBtn = e.target.closest('[data-del-sh]');
+      if (delShBtn) {
+        deleteShabba(delShBtn.getAttribute('data-del-sh'));
+        return;
+      }
+
+      if (e.target.id === 'modalBg') {
+        closeModal();
+      }
+    });
+
+    document.getElementById('btnCloseModal').onclick = closeModal;
     document.getElementById('btnAdmin').onclick = function () {
       if (isAdmin) setAdmin(false);
       else askPin(function () {});
@@ -1448,48 +1368,18 @@ function renderTree() {
     document.getElementById('btnAdminSettings').onclick = openAdminSettingsModal;
     document.getElementById('btnAddAd').onclick = openAddAdModal;
     document.getElementById('btnAddShabba').onclick = openAddShabbaModal;
-    document.getElementById('btnCloseModal').onclick = closeModal;
-
-    document.addEventListener('click', function (e) {
-      var childBtn = e.target.closest('[data-add-child]');
-      if (childBtn) {
-        e.preventDefault();
-        e.stopPropagation();
-        var now = Date.now();
-        if (now - lastClickTime < 250) return;
-        lastClickTime = now;
-        openAddForm('child', childBtn.getAttribute('data-add-child'));
-        return;
-      }
-      var personCard = e.target.closest('[data-open-person]');
-      if (personCard) {
-        openPersonDetails(personCard.getAttribute('data-open-person'));
-        return;
-      }
-      var viewImgEl = e.target.closest('[data-view-img]');
-      if (viewImgEl) {
-        openImageViewer(viewImgEl.getAttribute('data-view-img'), viewImgEl.getAttribute('data-view-title'));
-        return;
-      }
-      var delAdBtn = e.target.closest('[data-del-ad]');
-      if (delAdBtn) {
-        deleteAd(delAdBtn.getAttribute('data-del-ad'));
-        return;
-      }
-      var delShBtn = e.target.closest('[data-del-sh]');
-      if (delShBtn) {
-        deleteShabba(delShBtn.getAttribute('data-del-sh'));
-      }
-    }, true);
-
-    document.getElementById('btnExportData').onclick = exportBackupData;
-    document.getElementById('btnImportData').onclick = triggerImportBackupData;
+    document.getElementById('btnExportData').onclick = exportData;
+    document.getElementById('btnImportData').onclick = function () {
+      askPin(function () {
+        document.getElementById('importFileInput').click();
+      });
+    };
     document.getElementById('importFileInput').onchange = function (e) {
       var f = e.target.files && e.target.files[0];
-      handleImportedFile(f);
+      if (f) importDataFile(f);
+      e.target.value = '';
     };
 
-    setAdmin(false);
     renderAll();
   </script>
 </body>
