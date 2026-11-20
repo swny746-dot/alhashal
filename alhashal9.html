@@ -136,6 +136,138 @@
       flex-direction: column;
     }
 
+    /* ١- المشجره */
+    #view-tree {
+      width: 100%;
+      min-height: 75vh;
+      flex: 1 1 auto;
+      overflow: auto;
+      padding: 32px 24px 100px;
+      background-image: radial-gradient(#d8c8b2 1px, transparent 1px);
+      background-size: 22px 22px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-sizing: border-box;
+    }
+
+    .tree {
+      margin: 0 auto;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .tree ul {
+      padding-top: 24px;
+      position: relative;
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 0;
+    }
+
+    .tree li {
+      list-style: none;
+      text-align: center;
+      position: relative;
+      padding: 24px 10px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .tree li::before,
+    .tree li::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 50%;
+      border-top: 2px solid #8c6d4f;
+      width: 50%;
+      height: 24px;
+    }
+
+    .tree li::after {
+      right: auto;
+      left: 50%;
+      border-left: 2px solid #8c6d4f;
+    }
+
+    .tree li:only-child {
+      padding-top: 24px;
+    }
+
+    .tree li:only-child::before {
+      display: none;
+    }
+
+    .tree li:only-child::after {
+      display: block;
+      right: auto;
+      left: 50%;
+      width: 0;
+      border-top: 0;
+      border-left: 2px solid #8c6d4f;
+      height: 24px;
+    }
+
+    .tree li:first-child::before,
+    .tree li:last-child::after {
+      border-top: 0;
+    }
+
+    .tree li:last-child::before {
+      border-left: 2px solid #8c6d4f;
+      border-radius: 0 6px 0 0;
+    }
+
+    .tree li:first-child::after {
+      border-right: 2px solid #8c6d4f;
+      border-left: 0;
+      border-radius: 6px 0 0 0;
+    }
+
+    .tree ul ul::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      border-left: 2px solid #8c6d4f;
+      width: 0;
+      height: 24px;
+    }
+
+    .card {
+      background: #fffdf9;
+      border: 2px solid #d8c7b0;
+      border-radius: 12px;
+      padding: 10px 14px;
+      min-width: 165px;
+      max-width: 215px;
+      box-shadow: 0 3px 10px rgba(59, 38, 24, 0.08);
+      cursor: pointer;
+    }
+
+    .card.dead { background: #ece5da; border-color: #b9aa96; }
+    .card-name { font-weight: 800; font-size: 1rem; color: #3b2618; }
+    .card-sub { font-size: 0.78rem; color: #a8790d; font-weight: 700; margin-top: 3px; }
+
+    .card-quick-add {
+      margin-top: 8px;
+      padding: 5px 10px;
+      font-size: 0.76rem;
+      border-radius: 7px;
+      background: #efe0bf;
+      color: #3b2618;
+      border: 1px solid #d4b678;
+    }
+
+    .card-quick-add:hover { background: #c59216; color: #ffffff; }
+
+    /* ٢- اعلانات و ٣- شبات */
     .board-container {
       max-width: 960px;
       width: 100%;
@@ -353,10 +485,11 @@
 <body>
   <header>
     <div class="brand-area">
-      <h1>عشيره الهشال</h1>
+      <h1>🌳 عشيره الهشال</h1>
       <nav class="nav-tabs">
-        <button type="button" class="tab-btn active" data-tab="ads">١- اعلانات</button>
-        <button type="button" class="tab-btn" data-tab="shabbat">٢- شبات</button>
+        <button type="button" class="tab-btn active" data-tab="tree">١- المشجره</button>
+        <button type="button" class="tab-btn" data-tab="ads">٢- اعلانات</button>
+        <button type="button" class="tab-btn" data-tab="shabbat">٣- شبات</button>
       </nav>
     </div>
     <div class="toolbar">
@@ -368,7 +501,11 @@
     </div>
   </header>
 
-  <section id="view-ads" class="section-view active">
+  <section id="view-tree" class="section-view active">
+    <div class="tree" id="treeBox"></div>
+  </section>
+
+  <section id="view-ads" class="section-view">
     <div class="board-container">
       <div class="board-header">
         <div class="board-title">📢 اعلانات عشيره الهشال</div>
@@ -405,12 +542,14 @@
     var DAYS = ['السبت', 'الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة'];
 
     var defaultDB = {
+      rootId: 'n_hashal',
+      people: {},
       ads: [
         {
           id: 'ad_1',
           title: 'لقاء وتواصل أبناء العشيرة',
           tag: 'إعلان عام',
-          body: 'ندعو جميع أبناء عشيرة الهشال للمشاركة في اللقاء السنوي.',
+          body: 'ندعو جميع أبناء عشيرة الهشال للمشاركة في اللقاء السنوي وتحديث بيانات الأبناء في المشجرة.',
           image: '',
           date: 'اليوم'
         }
@@ -430,6 +569,8 @@
     var db = loadDB();
     var adminPins = loadPins();
     var isAdmin = false;
+    var mode = 'child';
+    var targetParentId = null;
     var pendingAction = null;
 
     function loadPins() {
@@ -453,7 +594,7 @@
         var raw = localStorage.getItem(KEY);
         if (raw) {
           var parsed = JSON.parse(raw);
-          if (parsed) {
+          if (parsed && parsed.people) {
             if (!Array.isArray(parsed.ads)) parsed.ads = [];
             if (!Array.isArray(parsed.shabbat)) parsed.shabbat = [];
             return parsed;
@@ -483,6 +624,7 @@
       var views = document.querySelectorAll('.section-view');
       for (var j = 0; j < views.length; j++) {
         views[j].classList.remove('active');
+        views[j].style.display = '';
       }
       var target = document.getElementById('view-' + tabName);
       if (target) {
@@ -603,6 +745,241 @@
 
         document.getElementById('btnClosePinModal').onclick = closeModal;
       });
+    }
+
+    function openAddForm(addMode, parentId) {
+      var m = addMode || 'child';
+      var pid = parentId || db.rootId || null;
+      askPin(function () {
+        mode = m;
+        targetParentId = pid;
+        var parentName = pid && db.people[pid] ? db.people[pid].name : 'المشجره';
+        openModal(
+          m === 'root' ? 'إضافة جد مؤسس' : ('إضافة ابن / ابنة لـ: ' + parentName),
+          '<div class="field">' +
+            '<label>الاسم *</label>' +
+            '<input type="text" id="personName" placeholder="اكتب الاسم هنا..." />' +
+            '<div class="err-msg" id="nameErr"></div>' +
+          '</div>' +
+          '<div class="field">' +
+            '<label>اللقب (اختياري)</label>' +
+            '<input type="text" id="personTitle" placeholder="مثال: شاعر / راعي إبل..." />' +
+          '</div>' +
+          '<div class="field">' +
+            '<label>الحالة</label>' +
+            '<select id="personStatus">' +
+              '<option value="dead">متوفى (رحمه الله)</option>' +
+              '<option value="alive">على قيد الحياة</option>' +
+            '</select>' +
+          '</div>' +
+          '<div class="btns-row">' +
+            '<button type="button" class="btn btn-gold" id="btnSavePerson">حفظ</button>' +
+            '<button type="button" class="btn btn-light" id="btnCancelForm">إلغاء</button>' +
+          '</div>',
+          'personName'
+        );
+
+        document.getElementById('btnSavePerson').onclick = savePerson;
+        document.getElementById('btnCancelForm').onclick = closeModal;
+        document.getElementById('personName').onkeydown = function (e) {
+          if (e.key === 'Enter') savePerson();
+        };
+      });
+    }
+
+    function savePerson() {
+      var nameEl = document.getElementById('personName');
+      var name = (nameEl.value || '').trim();
+      if (!name) {
+        document.getElementById('nameErr').textContent = 'اكتب الاسم أولاً';
+        nameEl.focus();
+        return;
+      }
+
+      var title = (document.getElementById('personTitle').value || '').trim();
+      var status = document.getElementById('personStatus').value || 'dead';
+      var id = 'p_' + Date.now() + '_' + Math.random().toString(36).slice(2, 5);
+
+      db.people[id] = { id: id, name: name, title: title, status: status, children: [] };
+
+      if (mode === 'root' || !db.rootId || !db.people[db.rootId]) {
+        db.rootId = id;
+      } else {
+        var p = db.people[targetParentId] || db.people[db.rootId];
+        p.children = p.children || [];
+        p.children.push(id);
+      }
+
+      saveDB();
+      closeModal();
+    }
+
+    function openPersonDetails(id) {
+      var p = db.people[id];
+      if (!p) return;
+      openModal(
+        p.name,
+        '<p style="margin-bottom:10px;">اللقب: <strong>' + (p.title || '—') + '</strong></p>' +
+        '<p style="margin-bottom:12px;">الحالة: <strong>' + (p.status === 'dead' ? 'متوفى (رحمه الله)' : 'على قيد الحياة') + '</strong></p>' +
+        '<div class="btns-row admin-only">' +
+          '<button type="button" class="btn btn-gold" id="btnModalAddChild">+ إضافة ابن / ابنة</button>' +
+          '<button type="button" class="btn btn-red" id="btnModalDelPerson">حذف</button>' +
+        '</div>'
+      );
+      document.body.classList.toggle('is-admin', isAdmin);
+      var addChildBtn = document.getElementById('btnModalAddChild');
+      var delBtn = document.getElementById('btnModalDelPerson');
+      if (addChildBtn) addChildBtn.onclick = function () { openAddForm('child', p.id); };
+      if (delBtn) delBtn.onclick = function () { deletePerson(p.id); };
+    }
+
+    function deletePerson(id) {
+      askPin(function () {
+        if (!db.people[id]) return;
+        var queue = [id];
+        var removeSet = {};
+        while (queue.length) {
+          var cur = queue.shift();
+          if (!db.people[cur] || removeSet[cur]) continue;
+          removeSet[cur] = true;
+          var kidsList = db.people[cur].children || [];
+          for (var i = 0; i < kidsList.length; i++) queue.push(kidsList[i]);
+        }
+        var keys = Object.keys(db.people);
+        for (var k = 0; k < keys.length; k++) {
+          var person = db.people[keys[k]];
+          person.children = (person.children || []).filter(function (c) { return !removeSet[c]; });
+        }
+        var remKeys = Object.keys(removeSet);
+        for (var r = 0; r < remKeys.length; r++) delete db.people[remKeys[r]];
+        if (removeSet[db.rootId]) db.rootId = Object.keys(db.people)[0] || null;
+        saveDB();
+        closeModal();
+      });
+    }
+
+    function drawNode(id) {
+      var p = db.people[id];
+      if (!p) return '';
+      var kidsArr = p.children || [];
+      var kidsHtml = '';
+      for (var i = 0; i < kidsArr.length; i++) {
+        kidsHtml += drawNode(kidsArr[i]);
+      }
+      var addBtn = isAdmin
+        ? '<div><button type="button" class="card-quick-add" data-add-child="' + p.id + '">+ ابن / ابنة</button></div>'
+        : '';
+      var deadCls = p.status === 'dead' ? ' dead' : '';
+      var deadTag = p.status === 'dead' ? ' (رحمه الله)' : '';
+      var subHtml = p.title ? ('<div class="card-sub">' + p.title + '</div>') : '';
+      var kidsUl = kidsHtml ? ('<ul>' + kidsHtml + '</ul>') : '';
+
+      return '<li>' +
+        '<div class="card' + deadCls + '" data-open-person="' + p.id + '">' +
+          '<div class="card-name">' + p.name + deadTag + '</div>' +
+          subHtml +
+          addBtn +
+        '</div>' +
+        kidsUl +
+      '</li>';
+    }
+
+    function renderTree() {
+      var box = document.getElementById('treeBox');
+      if (!box) return;
+      if (!db.rootId || !db.people[db.rootId]) {
+        box.innerHTML =
+          '<div style="text-align:center;padding:30px;">' +
+          '<p style="margin-bottom:12px;">المشجرة فارغة</p>' +
+          '<button type="button" class="btn btn-gold admin-only" id="btnEmptyAddRoot">+ إضافة جد مؤسس</button>' +
+          '</div>';
+        document.body.classList.toggle('is-admin', isAdmin);
+        var emptyBtn = document.getElementById('btnEmptyAddRoot');
+        if (emptyBtn) emptyBtn.onclick = function () { openAddForm('root'); };
+        return;
+      }
+
+      var zoomBar =
+        '<div id="treeZoomBar" style="position:sticky;top:8px;z-index:20;display:inline-flex;align-items:center;gap:6px;background:#f6efe2;border:1px solid #c8ad7f;padding:6px 10px;border-radius:10px;box-shadow:0 2px 8px rgba(60,40,15,0.12);margin-bottom:12px;">' +
+          '<button type="button" class="btn btn-light" id="zoomInBtn" title="تقريب">+</button>' +
+          '<input type="number" id="zoomInput" min="30" max="200" step="5" value="100" style="width:64px;text-align:center;padding:6px;border:1px solid #c8ad7f;border-radius:8px;font-weight:700;background:#fff;">' +
+          '<span style="font-size:0.85rem;font-weight:700;">%</span>' +
+          '<button type="button" class="btn btn-light" id="zoomResetBtn" title="إعادة الضبط">100%</button>' +
+          '<button type="button" class="btn btn-light" id="zoomOutBtn" title="تبعيد">-</button>' +
+        '</div>';
+
+      box.innerHTML =
+        zoomBar +
+        '<div id="treeViewport" style="position:relative;width:100%;min-height:420px;overflow:auto;cursor:grab;user-select:none;">' +
+          '<div id="treeZoomCanvas" style="position:relative;display:inline-block;transform:translate(0px,0px) scale(1);transform-origin:0 0;transition:transform 0.08s ease-out;">' +
+            '<ul>' + drawNode(db.rootId) + '</ul>' +
+          '</div>' +
+        '</div>';
+
+      var scale = 1;
+      var posX = 0;
+      var posY = 0;
+      var isDragging = false;
+      var startX = 0;
+      var startY = 0;
+
+      var viewport = document.getElementById('treeViewport');
+      var canvas = document.getElementById('treeZoomCanvas');
+      var zoomInput = document.getElementById('zoomInput');
+      var zIn = document.getElementById('zoomInBtn');
+      var zOut = document.getElementById('zoomOutBtn');
+      var zReset = document.getElementById('zoomResetBtn');
+
+      function applyTransform() {
+        if (canvas) {
+          canvas.style.transform = 'translate(' + posX + 'px, ' + posY + 'px) scale(' + scale.toFixed(2) + ')';
+        }
+        if (zoomInput) {
+          zoomInput.value = Math.round(scale * 100);
+        }
+      }
+
+      function setScalePercent(pct) {
+        var num = parseFloat(pct);
+        if (isNaN(num)) return;
+        num = Math.max(30, Math.min(200, num));
+        scale = num / 100;
+        applyTransform();
+      }
+
+      if (zIn) zIn.onclick = function () { setScalePercent((scale * 100) + 10); };
+      if (zOut) zOut.onclick = function () { setScalePercent((scale * 100) - 10); };
+      if (zReset) zReset.onclick = function () { posX = 0; posY = 0; setScalePercent(100); };
+
+      if (zoomInput) {
+        zoomInput.onchange = function () { setScalePercent(zoomInput.value); };
+        zoomInput.onkeydown = function (e) {
+          if (e.key === 'Enter') setScalePercent(zoomInput.value);
+        };
+      }
+
+      if (viewport) {
+        viewport.onmousedown = function (e) {
+          if (e.target.closest('.card') || e.target.closest('button') || e.target.closest('input')) return;
+          isDragging = true;
+          startX = e.clientX - posX;
+          startY = e.clientY - posY;
+          viewport.style.cursor = 'grabbing';
+        };
+
+        window.addEventListener('mousemove', function (e) {
+          if (!isDragging) return;
+          posX = e.clientX - startX;
+          posY = e.clientY - startY;
+          applyTransform();
+        });
+
+        window.addEventListener('mouseup', function () {
+          if (!isDragging) return;
+          isDragging = false;
+          if (viewport) viewport.style.cursor = 'grab';
+        });
+      }
     }
 
     function escapeAttr(str) {
@@ -902,6 +1279,7 @@
     }
 
     function renderAll() {
+      renderTree();
       renderAds();
       renderShabbat();
     }
@@ -926,6 +1304,8 @@
             var parsed = JSON.parse(ev.target.result);
             if (parsed && typeof parsed === 'object') {
               db = {
+                rootId: parsed.rootId || 'n_hashal',
+                people: (parsed.people && typeof parsed.people === 'object') ? parsed.people : {},
                 ads: Array.isArray(parsed.ads) ? parsed.ads : [],
                 shabbat: Array.isArray(parsed.shabbat) ? parsed.shabbat : []
               };
@@ -941,6 +1321,19 @@
       var tabBtn = e.target.closest('.tab-btn');
       if (tabBtn) {
         switchTab(tabBtn.getAttribute('data-tab'));
+        return;
+      }
+
+      var addChildBtn = e.target.closest('[data-add-child]');
+      if (addChildBtn) {
+        e.stopPropagation();
+        openAddForm('child', addChildBtn.getAttribute('data-add-child'));
+        return;
+      }
+
+      var personCard = e.target.closest('[data-open-person]');
+      if (personCard) {
+        openPersonDetails(personCard.getAttribute('data-open-person'));
         return;
       }
 
